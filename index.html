@@ -165,6 +165,18 @@
     </div>
   </header>
 
+  <!-- Section Switcher (Vocab 7-Day vs Kanji 120 4-Day) -->
+  <div class="border-b border-white/10 bg-slate-950/60 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-3 sm:px-5 py-2 flex flex-wrap items-center gap-2">
+      <button id="nav-tab-vocab" class="px-4 py-1.5 rounded-xl text-xs sm:text-sm font-black transition bg-gradient-to-r from-cyan-500/25 to-purple-500/25 border border-cyan-400/50 text-white">
+        📚 Vocab <span class="text-cyan-300 font-bold ml-1">(7 Days · <span id="tab-vocab-count">0/1018</span>)</span>
+      </button>
+      <button id="nav-tab-kanji" class="px-4 py-1.5 rounded-xl text-xs sm:text-sm font-black transition bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300">
+        漢 Kanji 120 <span class="text-amber-300 font-bold ml-1">(4 Days · <span id="tab-kanji-count">0/120</span>)</span>
+      </button>
+    </div>
+  </div>
+
   <!-- MAIN CONTAINER -->
   <main id="app-root" class="max-w-7xl mx-auto px-3 sm:px-5 py-5 pb-20"></main>
 
@@ -190,6 +202,14 @@
     const WORDS = DATASET.words;
     const DAYS = DATASET.meta.days;
     const WORD_MAP = new Map(WORDS.map(w => [w.id, w]));
+    const KANJI_LIST = [{"id":1,"day":1,"part":1,"kanji":"人","kun":"ひと","on":"ジン、ニン","meaning":"person; people","tip":"Walking person silhouette → 人","words":[{"w":"人","r":"ひと","m":"person","ex":"ここは人がおおいですね。"},{"w":"カナダ人","r":"カナダじん","m":"Canadian","ex":"その人はカナダ人です。"},{"w":"三人","r":"さんにん","m":"three people","ex":"こどもが三人います。"}]},{"id":2,"day":1,"part":1,"kanji":"日","kun":"ひ、か","on":"ニチ","meaning":"day; sun","tip":"Sun with center dot → 日","words":[{"w":"その日","r":"そのひ","m":"that day","ex":"すみません。その日はいそがしいです。"},{"w":"三日","r":"みっか","m":"3rd day of the month","ex":"きょうは三日です。"},{"w":"日よう日","r":"にちようび","m":"Sunday","ex":"日よう日はやすみです。"}]},{"id":3,"day":1,"part":1,"kanji":"一","kun":"ひと(つ)","on":"イチ、イッ","meaning":"one","tip":"Single horizontal finger → 一","words":[{"w":"一つ","r":"ひとつ","m":"one (thing)","ex":"すみません。それを一つください。"},{"w":"一人","r":"ひとり","m":"one person","ex":"一人でホンコンにいきます。"},{"w":"一日","r":"ついたち","m":"1st day of the month","ex":"一日にホンコンにいきます。"}]},{"id":4,"day":1,"part":1,"kanji":"二","kun":"ふた(つ)","on":"ニ","meaning":"two","tip":"Two horizontal strokes → 二","words":[{"w":"二つ","r":"ふたつ","m":"two (things)","ex":"コーヒーを二つください。"},{"w":"二日","r":"ふつか","m":"two days / 2nd day","ex":"きょうは二日です。"},{"w":"二人","r":"ふたり","m":"two people","ex":"二人でいきます。"}]},{"id":5,"day":1,"part":1,"kanji":"三","kun":"みっ(つ)","on":"サン","meaning":"three","tip":"Three horizontal strokes → 三","words":[{"w":"三つ","r":"みっつ","m":"three (things)","ex":"ハンバーガーを三つください。"},{"w":"三日","r":"みっか","m":"three days / 3rd day","ex":"ローマに三日いました。"},{"w":"三人","r":"さんにん","m":"three people","ex":"かぞくは三人です。"}]},{"id":6,"day":1,"part":1,"kanji":"四","kun":"よっ(つ)、よん、よ","on":"シ","meaning":"four","tip":"Box with two legs inside → 四","words":[{"w":"四つ","r":"よっつ","m":"four (things)","ex":"このパンを四つください。"},{"w":"四日","r":"よっか","m":"four days / 4th day","ex":"きょうは四日です。"},{"w":"四月","r":"しがつ","m":"April","ex":"きょうは四月四日です。"}]},{"id":7,"day":1,"part":1,"kanji":"五","kun":"いつ(つ)","on":"ゴ","meaning":"five","tip":"Crossed lines framed top & bottom → 五","words":[{"w":"五つ","r":"いつつ","m":"five (things)","ex":"チーズバーガーを五つください。"},{"w":"五日","r":"いつか","m":"five days / 5th day","ex":"きょうは五日です。"},{"w":"五人","r":"ごにん","m":"five people","ex":"五人でキャンプにいきます。"}]},{"id":8,"day":1,"part":1,"kanji":"六","kun":"むっ(つ)","on":"ロク","meaning":"six","tip":"Lid on top with two legs → 六","words":[{"w":"六つ","r":"むっつ","m":"six (things)","ex":"ビールを六つください。"},{"w":"六日","r":"むいか","m":"six days / 6th day","ex":"インドに六日いました。"},{"w":"六人","r":"ろくにん","m":"six people","ex":"かぞくは六人です。"}]},{"id":9,"day":1,"part":1,"kanji":"七","kun":"なな(つ)、なな","on":"シチ","meaning":"seven","tip":"Upside-down 7 with a hook → 七","words":[{"w":"七つ","r":"ななつ","m":"seven (things)","ex":"コーラを七つください。"},{"w":"七日","r":"なのか","m":"seven days / 7th day","ex":"七日はやすみです。"},{"w":"七人","r":"しちにん","m":"seven people","ex":"かぞくは七人です。"}]},{"id":10,"day":1,"part":1,"kanji":"八","kun":"やっ(つ)","on":"ハチ","meaning":"eight","tip":"Two strokes splitting apart → 八","words":[{"w":"八つ","r":"やっつ","m":"eight (things)","ex":"このりんごを八つください。"},{"w":"八日","r":"ようか","m":"eight days / 8th day","ex":"八日はやすみです。"},{"w":"八人","r":"はちにん","m":"eight people","ex":"かぞくは八人います。"}]},{"id":11,"day":1,"part":2,"kanji":"九","kun":"ここの(つ)","on":"キュウ、ク","meaning":"nine","tip":"Bent arm reaching out → 九","words":[{"w":"九つ","r":"ここのつ","m":"nine (things)","ex":"コーヒーを九つください。"},{"w":"九日","r":"ここのか","m":"nine days / 9th day","ex":"九日はやすみです。"},{"w":"九月","r":"くがつ","m":"September","ex":"きょうは九月九日です。"}]},{"id":12,"day":1,"part":2,"kanji":"十","kun":"とお","on":"ジュウ","meaning":"ten","tip":"Full cross of 10 fingers → 十","words":[{"w":"十","r":"とお","m":"ten","ex":"一つ、二つ、……、九つ、十"},{"w":"十日","r":"とおか","m":"ten days / 10th day","ex":"十日はやすみです。"},{"w":"十人","r":"じゅうにん","m":"ten people","ex":"かぞくは十人です。"}]},{"id":13,"day":1,"part":2,"kanji":"月","kun":"つき","on":"ゲツ、ガツ","meaning":"moon; month","tip":"Crescent moon → 月","words":[{"w":"月","r":"つき","m":"moon / month","ex":"月がとてもきれいです。"},{"w":"月よう日","r":"げつようび","m":"Monday","ex":"月よう日にカナダにいきます。"},{"w":"一か月","r":"いっかげつ","m":"one month","ex":"ドイツに一か月いました。"}]},{"id":14,"day":1,"part":2,"kanji":"火","kun":"ひ","on":"カ","meaning":"fire","tip":"Flames rising with sparks → 火","words":[{"w":"火","r":"ひ","m":"fire","ex":"火はあぶないです。"},{"w":"火よう日","r":"かようび","m":"Tuesday","ex":"火よう日にどこにいきましたか。"}]},{"id":15,"day":1,"part":2,"kanji":"水","kun":"みず","on":"スイ","meaning":"water","tip":"Flowing stream with splashes → 水","words":[{"w":"水","r":"みず","m":"water","ex":"すみません。水をください。"},{"w":"水よう日","r":"すいようび","m":"Wednesday","ex":"十三日は水よう日です。"}]},{"id":16,"day":1,"part":2,"kanji":"木","kun":"き","on":"モク","meaning":"tree; wood","tip":"Tree trunk, branches & roots → 木","words":[{"w":"木","r":"き","m":"tree / wood","ex":"この木のテーブルはいくらですか。"},{"w":"木よう日","r":"もくようび","m":"Thursday","ex":"二十四日は木よう日です。"}]},{"id":17,"day":1,"part":2,"kanji":"金","kun":"かね","on":"キン","meaning":"money; gold","tip":"Roof covering nuggets of gold → 金","words":[{"w":"お金","r":"おかね","m":"money","ex":"すみません。お金をかしてください。"},{"w":"金","r":"きん","m":"gold","ex":"これは金のネックレスです。"},{"w":"金よう日","r":"きんようび","m":"Friday","ex":"レッスンは火よう日と金よう日です。"}]},{"id":18,"day":1,"part":2,"kanji":"土","kun":"—","on":"ド","meaning":"soil; Saturday","tip":"Cross planted in the ground → 土","words":[{"w":"土よう日","r":"どようび","m":"Saturday","ex":"土よう日にテニスをします。"}]},{"id":19,"day":1,"part":2,"kanji":"百","kun":"—","on":"ヒャク","meaning":"hundred","tip":"One (一) over white (白) → 百","words":[{"w":"百円","r":"ひゃくえん","m":"100 yen","ex":"百円ショップはどこにありますか。"}]},{"id":20,"day":1,"part":2,"kanji":"千","kun":"—","on":"セン","meaning":"thousand","tip":"Person + ten → 千","words":[{"w":"千円","r":"せんえん","m":"1,000 yen","ex":"あのレストランのランチは千円です。"}]},{"id":21,"day":1,"part":3,"kanji":"万","kun":"—","on":"マン","meaning":"ten thousand","tip":"Ten thousand (10,000) → 万","words":[{"w":"三万円","r":"さんまんえん","m":"30,000 yen","ex":"このバッグは三万円でした。"}]},{"id":22,"day":1,"part":3,"kanji":"円","kun":"—","on":"エン","meaning":"yen; circle","tip":"Round coin / yen frame → 円","words":[{"w":"百円","r":"ひゃくえん","m":"100 yen","ex":"これは三つで百円です。"}]},{"id":23,"day":1,"part":3,"kanji":"行","kun":"い(きます)","on":"コウ","meaning":"go","tip":"Crossroads intersection → 行","words":[{"w":"行きます","r":"いきます","m":"go","ex":"いっしょにレストランに行きませんか。"},{"w":"銀行","r":"ぎんこう","m":"bank","ex":"これから銀行に行きます。"}]},{"id":24,"day":1,"part":3,"kanji":"来","kun":"き(ます)","on":"ライ","meaning":"come; next","tip":"Wheat/tree coming up → 来","words":[{"w":"来ます","r":"きます","m":"come","ex":"六月六日にアメリカから東京に来ました。"},{"w":"来月","r":"らいげつ","m":"next month","ex":"来月、一人でカナダに行きます。"}]},{"id":25,"day":1,"part":3,"kanji":"休","kun":"やす(みます)","on":"—","meaning":"rest; holiday","tip":"Person (亻) leaning against tree (木) → 休","words":[{"w":"休みます","r":"やすみます","m":"rest / take off","ex":"すこし休みましょう。"},{"w":"休み","r":"やすみ","m":"holiday; vacation","ex":"休みにオーストラリアに行きます。"}]},{"id":26,"day":1,"part":3,"kanji":"見","kun":"み(ます)、み(せます)","on":"—","meaning":"see; look; show","tip":"Eye (目) on walking legs (儿) → 見","words":[{"w":"見ます","r":"みます","m":"see; look; watch","ex":"ふじさんを見ました。"},{"w":"見せます","r":"みせます","m":"show","ex":"メニューを見せてください。"}]},{"id":27,"day":1,"part":3,"kanji":"今","kun":"いま","on":"コン","meaning":"now; this","tip":"Roof over the present moment → 今","words":[{"w":"今","r":"いま","m":"now","ex":"今、ビデオを見ています。"},{"w":"今月","r":"こんげつ","m":"this month","ex":"今月の十日に東京に来ました。"},{"w":"今日","r":"きょう","m":"today","ex":"今日のレッスンはおもしろかったです。"}]},{"id":28,"day":1,"part":3,"kanji":"大","kun":"おお(きい)","on":"ダイ","meaning":"big; large","tip":"Person stretching arms wide → 大","words":[{"w":"大きい","r":"おおきい","m":"big","ex":"大きい木があります。"},{"w":"大学","r":"だいがく","m":"university","ex":"イギリスの大学に行きたいです。"},{"w":"大人","r":"おとな","m":"adult","ex":"大人は千八百円です。"}]},{"id":29,"day":1,"part":3,"kanji":"小","kun":"ちい(さい)","on":"ショウ","meaning":"small; little","tip":"Tiny grain divided small → 小","words":[{"w":"小さい","r":"ちいさい","m":"small","ex":"あの小さいカップは五百円です。"},{"w":"小学校","r":"しょうがっこう","m":"elementary school","ex":"あれは小学校です。"}]},{"id":30,"day":1,"part":3,"kanji":"上","kun":"うえ","on":"ジョウ","meaning":"up; on; above","tip":"Pointer sticking up above a line → 上","words":[{"w":"上","r":"うえ","m":"on; above","ex":"テーブルの上にお金があります。"},{"w":"上手","r":"じょうず","m":"good at; skillful","ex":"あの人はゴルフが上手です。"}]},{"id":31,"day":2,"part":1,"kanji":"下","kun":"した","on":"カ","meaning":"down; under","tip":"Pointer hanging below a line → 下","words":[{"w":"下","r":"した","m":"under","ex":"テーブルの下にねこがいます。"},{"w":"地下鉄","r":"ちかてつ","m":"subway","ex":"地下鉄で行きましょう。"}]},{"id":32,"day":2,"part":1,"kanji":"中","kun":"なか","on":"チュウ","meaning":"inside; middle","tip":"Line piercing the dead center → 中","words":[{"w":"中","r":"なか","m":"inside","ex":"ポケットの中に五万円あります。"},{"w":"中国","r":"ちゅうごく","m":"China","ex":"中国に行きたいです。"},{"w":"一日中","r":"いちにちじゅう","m":"all day long","ex":"休みの日は一日中テレビを見ています。"}]},{"id":33,"day":2,"part":1,"kanji":"右","kun":"みぎ","on":"—","meaning":"right","tip":"Hand reaching to mouth (口) → 右","words":[{"w":"右","r":"みぎ","m":"right","ex":"右にまがってください。"}]},{"id":34,"day":2,"part":1,"kanji":"左","kun":"ひだり","on":"—","meaning":"left","tip":"Hand holding craft tool (工) → 左","words":[{"w":"左","r":"ひだり","m":"left","ex":"左にまがってください。"}]},{"id":35,"day":2,"part":1,"kanji":"山","kun":"やま","on":"サン","meaning":"mountain","tip":"Three mountain peaks → 山","words":[{"w":"山","r":"やま","m":"mountain","ex":"今月の休みに山に行きます。"},{"w":"ふじ山","r":"ふじさん","m":"Mt. Fuji","ex":"来月、ふじ山に行きます。"}]},{"id":36,"day":2,"part":1,"kanji":"川","kun":"かわ","on":"—","meaning":"river","tip":"Three flowing river currents → 川","words":[{"w":"川","r":"かわ","m":"river","ex":"きれいな川ですね。"}]},{"id":37,"day":2,"part":1,"kanji":"白","kun":"しろ(い)、しろ","on":"—","meaning":"white","tip":"Sun (日) with a bright ray on top → 白","words":[{"w":"白い","r":"しろい","m":"white (adj.)","ex":"白いコートは三万四千円です。"},{"w":"白","r":"しろ","m":"white (noun)","ex":"わたしは白がすきです。"}]},{"id":38,"day":2,"part":1,"kanji":"本","kun":"—","on":"ホン","meaning":"book; origin; counter","tip":"Tree (木) marked at its root → 本","words":[{"w":"本","r":"ほん","m":"book","ex":"この本は千二百円です。"},{"w":"九本","r":"きゅうほん","m":"nine long objects","ex":"たばこを九本すいました。"},{"w":"日本","r":"にほん","m":"Japan","ex":"六月にイタリアから日本に来ました。"}]},{"id":39,"day":2,"part":1,"kanji":"子","kun":"こ","on":"—","meaning":"child","tip":"Baby with outstretched arms → 子","words":[{"w":"子ども","r":"こども","m":"child","ex":"中川さんは六さいの子どもが一人います。"},{"w":"子どもたち","r":"こどもたち","m":"children","ex":"子どもたちは川に行きました。"},{"w":"この子","r":"このこ","m":"this child","ex":"この子は四さいです。"}]},{"id":40,"day":2,"part":1,"kanji":"男","kun":"おとこ","on":"—","meaning":"man; male","tip":"Rice field (田) + power (力) → 男","words":[{"w":"男","r":"おとこ","m":"man","ex":"あの男の人は大木さんです。"},{"w":"男の子","r":"おとこのこ","m":"boy","ex":"三さいの男の子が一人います。"}]},{"id":41,"day":2,"part":2,"kanji":"女","kun":"おんな","on":"—","meaning":"woman; female","tip":"Graceful kneeling figure → 女","words":[{"w":"女","r":"おんな","m":"woman","ex":"あの女の人はフランス人です。"},{"w":"女の子","r":"おんなのこ","m":"girl","ex":"五さいの女の子が一人います。"}]},{"id":42,"day":2,"part":2,"kanji":"父","kun":"ちち","on":"—","meaning":"father","tip":"Crossed axes / firm hands → 父","words":[{"w":"父","r":"ちち","m":"(my) father","ex":"父はフランスにいます。"},{"w":"お父さん","r":"おとうさん","m":"(someone's) father","ex":"お父さんはいつ日本に来ましたか。"}]},{"id":43,"day":2,"part":2,"kanji":"母","kun":"はは","on":"—","meaning":"mother","tip":"Nurturing mother figure → 母","words":[{"w":"母","r":"はは","m":"(my) mother","ex":"母のたんじょう日にプレゼントをあげました。"},{"w":"お母さん","r":"おかあさん","m":"(someone's) mother","ex":"お母さんはいつ日本に来ますか。"}]},{"id":44,"day":2,"part":2,"kanji":"友","kun":"とも","on":"—","meaning":"friend","tip":"Two hands reaching together → 友","words":[{"w":"友だち","r":"ともだち","m":"friend","ex":"今日、友だちにメールしました。"}]},{"id":45,"day":2,"part":2,"kanji":"先","kun":"さき","on":"セン","meaning":"ahead; previous","tip":"Legs stepping ahead first → 先","words":[{"w":"先に","r":"さきに","m":"earlier","ex":"お先にしつれいします。"},{"w":"先月","r":"せんげつ","m":"last month","ex":"先月、友だちとミュージカルを見ました。"}]},{"id":46,"day":2,"part":2,"kanji":"生","kun":"う(まれます)","on":"セイ","meaning":"life; birth; student","tip":"Sprout growing out of soil → 生","words":[{"w":"生まれます","r":"うまれます","m":"be born","ex":"先月、子どもが生まれました。"},{"w":"先生","r":"せんせい","m":"teacher","ex":"あの女の先生はとてもやさしいです。"}]},{"id":47,"day":2,"part":2,"kanji":"学","kun":"—","on":"ガク","meaning":"learn; study","tip":"Child (子) under a school roof → 学","words":[{"w":"学生","r":"がくせい","m":"student","ex":"わたしは学生ですから、あまりお金がありません。"},{"w":"大学","r":"だいがく","m":"university","ex":"スペインの大学に行きました。"},{"w":"大学生","r":"だいがくせい","m":"university student","ex":"大学生はよくアルバイトをします。"}]},{"id":48,"day":2,"part":2,"kanji":"校","kun":"—","on":"コウ","meaning":"school","tip":"Tree (木) + mingle (交) at school → 校","words":[{"w":"学校","r":"がっこう","m":"school","ex":"この学校はあたらしいです。"},{"w":"小学校","r":"しょうがっこう","m":"elementary school","ex":"うちのちかくに小学校があります。"},{"w":"中学校","r":"ちゅうがっこう","m":"junior high school","ex":"あの人は中学校の先生です。"}]},{"id":49,"day":2,"part":2,"kanji":"何","kun":"なに、なん","on":"—","meaning":"what; how many","tip":"Person (亻) asking a question (?) → 何","words":[{"w":"何","r":"なに","m":"what","ex":"休みの日に何をしますか。"},{"w":"何","r":"なん","m":"what","ex":"これは何ですか。"},{"w":"何人","r":"なんにん","m":"how many people","ex":"パーティーに何人来ましたか。"}]},{"id":50,"day":2,"part":2,"kanji":"時","kun":"とき","on":"ジ","meaning":"time; o'clock","tip":"Sun (日) over temple (寺) → 時","words":[{"w":"時","r":"とき","m":"when; time","ex":"子どもの時、あまりテレビを見ませんでした。"},{"w":"時々","r":"ときどき","m":"sometimes","ex":"時々コンビニで水をかいます。"},{"w":"時計","r":"とけい","m":"clock; watch","ex":"この時計は四万七千円でした。"}]},{"id":51,"day":2,"part":3,"kanji":"間","kun":"あいだ","on":"カン","meaning":"between; interval","tip":"Sun (日) shining through gate (門) → 間","words":[{"w":"間","r":"あいだ","m":"between","ex":"マックとスタバの間にケンタッキーがあります。"},{"w":"時間","r":"じかん","m":"time","ex":"今日は時間がありません。"},{"w":"二時間","r":"にじかん","m":"two hours","ex":"時々二時間ぐらいテニスをします。"}]},{"id":52,"day":2,"part":3,"kanji":"分","kun":"—","on":"フン","meaning":"minute; divide","tip":"Split (八) with a sword (刀) → 分","words":[{"w":"五分","r":"ごふん","m":"five minutes","ex":"すみません。五分まってください。"},{"w":"十分","r":"じゅっぷん","m":"ten minutes","ex":"うちから学校まで十分です。"}]},{"id":53,"day":2,"part":3,"kanji":"半","kun":"—","on":"ハン","meaning":"half","tip":"Center line cutting right in half → 半","words":[{"w":"八時半","r":"はちじはん","m":"half past eight","ex":"八時半に学校に行きます。"},{"w":"半分","r":"はんぶん","m":"half","ex":"このパンは大きいですから、半分たべてください。"}]},{"id":54,"day":2,"part":3,"kanji":"毎","kun":"—","on":"マイ","meaning":"every","tip":"Mother (母) every single day → 毎","words":[{"w":"毎日","r":"まいにち","m":"every day","ex":"毎日三十分ジョギングします。"},{"w":"毎月","r":"まいつき","m":"every month","ex":"毎月二十五日にパーティーをします。"}]},{"id":55,"day":2,"part":3,"kanji":"年","kun":"とし","on":"ネン","meaning":"year; age","tip":"Yearly harvest cycle → 年","words":[{"w":"年","r":"とし","m":"year; age","ex":"その年はとてもあつかったです。"},{"w":"今年","r":"ことし","m":"this year","ex":"今年のクリスマスにハワイに行きます。"},{"w":"来年","r":"らいねん","m":"next year","ex":"来年の六月にアメリカに行きます。"}]},{"id":56,"day":2,"part":3,"kanji":"前","kun":"まえ","on":"ゼン","meaning":"before; in front of","tip":"Step forward in front → 前","words":[{"w":"前","r":"まえ","m":"before; in front of","ex":"学校の前にスタバがあります。"},{"w":"三年前","r":"さんねんまえ","m":"three years ago","ex":"三年前に日本に来ました。"},{"w":"午前","r":"ごぜん","m":"morning; a.m.","ex":"今、午前十時です。"}]},{"id":57,"day":2,"part":3,"kanji":"後","kun":"うし(ろ)、あと","on":"ゴ","meaning":"behind; after; later","tip":"Trailing thread walking behind → 後","words":[{"w":"後ろ","r":"うしろ","m":"behind","ex":"テレビの後ろにスピーカーがあります。"},{"w":"後で","r":"あとで","m":"later","ex":"また後でメールします。"},{"w":"午後","r":"ごご","m":"afternoon; p.m.","ex":"今、午後八時です。"}]},{"id":58,"day":2,"part":3,"kanji":"午","kun":"—","on":"ゴ","meaning":"noon","tip":"Noon pestle / midday → 午","words":[{"w":"午前","r":"ごぜん","m":"morning; a.m.","ex":"ミーティングは午前九時からです。"},{"w":"午後","r":"ごご","m":"afternoon; p.m.","ex":"土よう日の午後は休みです。"}]},{"id":59,"day":2,"part":3,"kanji":"名","kun":"な","on":"メイ","meaning":"name","tip":"Evening (夕) calling out with mouth (口) → 名","words":[{"w":"名前","r":"なまえ","m":"name","ex":"こちらにお名前をおねがいします。"},{"w":"有名","r":"ゆうめい","m":"famous","ex":"あの人はとても有名な先生です。"}]},{"id":60,"day":2,"part":3,"kanji":"車","kun":"くるま","on":"シャ","meaning":"car; vehicle","tip":"Top-down view of wheels & axle → 車","words":[{"w":"車","r":"くるま","m":"car","ex":"父の車で来ました。"},{"w":"電車","r":"でんしゃ","m":"train","ex":"毎日電車で大学に行きます。"}]},{"id":61,"day":3,"part":1,"kanji":"天","kun":"—","on":"テン","meaning":"heaven; sky","tip":"Line above big (大) = sky/heaven → 天","words":[{"w":"天気","r":"てんき","m":"weather","ex":"今日はいい天気ですね。"}]},{"id":62,"day":3,"part":1,"kanji":"気","kun":"—","on":"キ","meaning":"spirit; mood; air","tip":"Rising steam/energy → 気","words":[{"w":"天気","r":"てんき","m":"weather","ex":"今日はいい天気ですね。"},{"w":"電気","r":"でんき","m":"electricity","ex":"電気をつけましょうか。"}]},{"id":63,"day":3,"part":1,"kanji":"電","kun":"—","on":"デン","meaning":"electricity","tip":"Rain (雨) + lightning bolt → 電","words":[{"w":"電気","r":"でんき","m":"electricity","ex":"電気をつけましょうか。"},{"w":"電車","r":"でんしゃ","m":"train","ex":"毎日、電車で学校に行きます。"}]},{"id":64,"day":3,"part":1,"kanji":"話","kun":"はな(します)、はなし","on":"ワ","meaning":"speak; talk; story","tip":"Words (言) + tongue (舌) → 話","words":[{"w":"話します","r":"はなします","m":"speak; talk","ex":"会社で日本語を話します。"},{"w":"話","r":"はなし","m":"story","ex":"おもしろい話ですね。"},{"w":"電話","r":"でんわ","m":"telephone","ex":"今日母に電話しました。"}]},{"id":65,"day":3,"part":1,"kanji":"食","kun":"た(べます)","on":"ショク","meaning":"eat; food","tip":"Roof over good food bowl → 食","words":[{"w":"食べます","r":"たべます","m":"eat","ex":"このケーキを食べてもいいですか。"},{"w":"食堂","r":"しょくどう","m":"dining room","ex":"会社の食堂でカレーを食べました。"}]},{"id":66,"day":3,"part":1,"kanji":"聞","kun":"き(きます)","on":"ブン","meaning":"hear; listen; ask","tip":"Ear (耳) listening at a gate (門) → 聞","words":[{"w":"聞きます","r":"ききます","m":"hear; listen; ask","ex":"車の中でラジオを聞きます。"},{"w":"新聞","r":"しんぶん","m":"newspaper","ex":"これは三日前の新聞です。"}]},{"id":67,"day":3,"part":1,"kanji":"書","kun":"か(きます)","on":"—","meaning":"write","tip":"Hand holding brush over paper (日) → 書","words":[{"w":"書きます","r":"かきます","m":"write","ex":"ここに名前を書いてください。"}]},{"id":68,"day":3,"part":1,"kanji":"読","kun":"よ(みます)","on":"—","meaning":"read","tip":"Words (言) + sell (売) = read aloud → 読","words":[{"w":"読みます","r":"よみます","m":"read","ex":"毎日電車の中で新聞を読みます。"}]},{"id":69,"day":3,"part":1,"kanji":"国","kun":"くに","on":"コク","meaning":"country","tip":"Jewel (玉) inside national borders (囗) → 国","words":[{"w":"国","r":"くに","m":"country","ex":"あなたの国は、今何時ですか。"},{"w":"中国","r":"ちゅうごく","m":"China","ex":"中国に行きたいです。"}]},{"id":70,"day":3,"part":1,"kanji":"外","kun":"そと","on":"ガイ","meaning":"outside; foreign","tip":"Evening (夕) + divining rod (卜) → 外","words":[{"w":"外","r":"そと","m":"outside","ex":"天気がいいですから、外で食べましょう。"},{"w":"外国","r":"がいこく","m":"foreign country","ex":"来月の休みに外国に行きます。"},{"w":"外国人","r":"がいこくじん","m":"foreigner","ex":"外国人の友だちがたくさんいます。"}]},{"id":71,"day":3,"part":2,"kanji":"語","kun":"—","on":"ゴ","meaning":"language; word","tip":"Words (言) + five (五) + mouth (口) → 語","words":[{"w":"日本語","r":"にほんご","m":"Japanese","ex":"日本語で書いてください。"},{"w":"英語","r":"えいご","m":"English","ex":"電車の中で英語の新聞を読みます。"}]},{"id":72,"day":3,"part":2,"kanji":"入","kun":"い(れます)、はい(ります)","on":"—","meaning":"enter; put in","tip":"Sloping roof to step inside → 入","words":[{"w":"入れます","r":"いれます","m":"put in","ex":"ここにお金を入れてください。"},{"w":"入ります","r":"はいります","m":"enter","ex":"入ってもいいですか。"}]},{"id":73,"day":3,"part":2,"kanji":"出","kun":"だ(します)、で(ます)","on":"—","meaning":"exit; leave; take out","tip":"Two mountains popping out → 出","words":[{"w":"出します","r":"だします","m":"take out; send","ex":"ポケットからお金を出します。"},{"w":"出ます","r":"でます","m":"leave","ex":"電車は九時に出ます。"},{"w":"出かけます","r":"でかけます","m":"go out","ex":"田中さんはもう出かけましたよ。"}]},{"id":74,"day":3,"part":2,"kanji":"雨","kun":"あめ","on":"—","meaning":"rain","tip":"Four raindrops falling from sky → 雨","words":[{"w":"雨","r":"あめ","m":"rain","ex":"今日の午後は雨です。"}]},{"id":75,"day":3,"part":2,"kanji":"東","kun":"ひがし","on":"トウ","meaning":"east","tip":"Sun (日) rising behind tree (木) → 東","words":[{"w":"東","r":"ひがし","m":"east","ex":"こちらが東です。"},{"w":"東京","r":"とうきょう","m":"Tokyo","ex":"東京は人がたくさんいます。"}]},{"id":76,"day":3,"part":2,"kanji":"西","kun":"にし","on":"—","meaning":"west","tip":"Bird returning to nest at sunset → 西","words":[{"w":"西","r":"にし","m":"west","ex":"あちらが西です。"}]},{"id":77,"day":3,"part":2,"kanji":"南","kun":"みなみ","on":"—","meaning":"south","tip":"Warm southern tent/shelter → 南","words":[{"w":"南","r":"みなみ","m":"south","ex":"そちらが南です。"}]},{"id":78,"day":3,"part":2,"kanji":"北","kun":"きた","on":"—","meaning":"north","tip":"Two people back-to-back against cold → 北","words":[{"w":"北","r":"きた","m":"north","ex":"どちらが北ですか。"}]},{"id":79,"day":3,"part":2,"kanji":"長","kun":"なが(い)","on":"—","meaning":"long","tip":"Long flowing hair → 長","words":[{"w":"長い","r":"ながい","m":"long","ex":"三時間のレッスンは長いです。"}]},{"id":80,"day":3,"part":2,"kanji":"高","kun":"たか(い)","on":"—","meaning":"high; tall; expensive","tip":"Tall two-story tower → 高","words":[{"w":"高い","r":"たかい","m":"high; expensive","ex":"あのビルは高いです。"},{"w":"高い","r":"たかい","m":"expensive","ex":"このレストランは高いです。"}]},{"id":81,"day":3,"part":3,"kanji":"口","kun":"くち","on":"—","meaning":"mouth; opening","tip":"Wide-open mouth → 口","words":[{"w":"口","r":"くち","m":"mouth","ex":"あの男の人は口が大きいです。"},{"w":"入口","r":"いりぐち","m":"entrance","ex":"右に入口があります。"},{"w":"出口","r":"でぐち","m":"exit","ex":"左に出口があります。"}]},{"id":82,"day":3,"part":3,"kanji":"目","kun":"め","on":"—","meaning":"eye","tip":"Eye turned upright → 目","words":[{"w":"目","r":"め","m":"eye","ex":"あの女の人は目が大きいです。"}]},{"id":83,"day":3,"part":3,"kanji":"手","kun":"て","on":"—","meaning":"hand; arm","tip":"Palm with spread fingers → 手","words":[{"w":"手","r":"て","m":"hand; arm","ex":"手をあらいたいです。"},{"w":"切手","r":"きって","m":"stamp","ex":"五十円切手を三まいください。"},{"w":"上手 / 下手","r":"じょうず / へた","m":"skillful / poor","ex":"母はテニスがとても上手です。"}]},{"id":84,"day":3,"part":3,"kanji":"足","kun":"あし","on":"—","meaning":"foot; leg","tip":"Knee cap over stepping foot → 足","words":[{"w":"足","r":"あし","m":"foot; leg","ex":"足のサイズは何センチですか。"}]},{"id":85,"day":3,"part":3,"kanji":"近","kun":"ちか(い)","on":"—","meaning":"near; close","tip":"Road (辶) + ax (斤) close by → 近","words":[{"w":"近い","r":"ちかい","m":"close; near","ex":"中国と日本は近いです。"},{"w":"近く","r":"ちかく","m":"neighborhood","ex":"この近くにコンビニがありますか。"}]},{"id":86,"day":3,"part":3,"kanji":"有","kun":"あ(ります)","on":"ユウ","meaning":"exist; have; famous","tip":"Hand holding meat/moon (月) → 有","words":[{"w":"有ります","r":"あります","m":"exist","ex":"山に木がたくさん有ります。"},{"w":"有名","r":"ゆうめい","m":"famous","ex":"有名なレストランに行きました。"}]},{"id":87,"day":3,"part":3,"kanji":"花","kun":"はな","on":"—","meaning":"flower","tip":"Grass/flowers (艹) transforming (化) → 花","words":[{"w":"花","r":"はな","m":"flower","ex":"あの川の近くに白い花がたくさんあります。"},{"w":"花屋","r":"はなや","m":"flower shop","ex":"花屋でアルバイトをしています。"},{"w":"花火","r":"はなび","m":"fireworks","ex":"今年は花火を見ましたか。"}]},{"id":88,"day":3,"part":3,"kanji":"赤","kun":"あか(い)、あか","on":"—","meaning":"red","tip":"Earth (土) glowing over fire → 赤","words":[{"w":"赤い","r":"あかい","m":"red (adj.)","ex":"赤い花と白い花、どちらがすきですか。"},{"w":"赤","r":"あか","m":"red (noun)","ex":"わたしは赤がすきです。"},{"w":"赤ちゃん","r":"あかちゃん","m":"baby","ex":"赤ちゃん、かわいいですね。"}]},{"id":89,"day":3,"part":3,"kanji":"紙","kun":"かみ","on":"—","meaning":"paper","tip":"Thread/fiber (糸) + clan (氏) → 紙","words":[{"w":"紙","r":"かみ","m":"paper","ex":"すみません。紙を一まいください。"},{"w":"手紙","r":"てがみ","m":"letter","ex":"外国の友だちに毎月手紙を書きます。"}]},{"id":90,"day":3,"part":3,"kanji":"買","kun":"か(います)","on":"—","meaning":"buy","tip":"Net (罒) over shell/money (貝) → 買","words":[{"w":"買います","r":"かいます","m":"buy","ex":"今月、大きいテレビを買いました。"},{"w":"買いもの","r":"かいもの","m":"shopping","ex":"母は買いものに行きました。"}]},{"id":91,"day":4,"part":1,"kanji":"朝","kun":"あさ","on":"—","meaning":"morning","tip":"Sun rising while moon (月) fades → 朝","words":[{"w":"朝","r":"あさ","m":"morning","ex":"朝は天気がよかったです。"},{"w":"毎朝","r":"まいあさ","m":"every morning","ex":"毎朝、花に水をあげます。"},{"w":"今朝","r":"けさ","m":"this morning","ex":"今朝は雨でした。"}]},{"id":92,"day":4,"part":1,"kanji":"昼","kun":"ひる","on":"—","meaning":"noon; daytime","tip":"Sun (日) high at midday → 昼","words":[{"w":"昼","r":"ひる","m":"noon","ex":"あしたの昼に電話します。"},{"w":"昼ごはん","r":"ひるごはん","m":"lunch","ex":"昼ごはんを食べましたか。"}]},{"id":93,"day":4,"part":1,"kanji":"夕","kun":"ゆう","on":"—","meaning":"evening","tip":"Half moon over a hill → 夕","words":[{"w":"夕がた","r":"ゆうがた","m":"evening","ex":"今日の夕がたに行きます。"}]},{"id":94,"day":4,"part":1,"kanji":"夜","kun":"よる","on":"—","meaning":"night","tip":"Evening (夕) under the night sky → 夜","words":[{"w":"夜","r":"よる","m":"night","ex":"きのうの夜は何時にねましたか。"}]},{"id":95,"day":4,"part":1,"kanji":"私","kun":"わたし、わたくし","on":"—","meaning":"I; me","tip":"Grain (禾) + personal (ム) → 私","words":[{"w":"私","r":"わたし","m":"I; me","ex":"私は今日時間があります。"}]},{"id":96,"day":4,"part":1,"kanji":"家","kun":"いえ","on":"カ","meaning":"house; family","tip":"Roof (宀) over pig/home (豕) → 家","words":[{"w":"家","r":"いえ","m":"house","ex":"私の家は六本木にあります。"},{"w":"家族","r":"かぞく","m":"family","ex":"私は六人家族です。"}]},{"id":97,"day":4,"part":1,"kanji":"会","kun":"あ(います)","on":"カイ","meaning":"meet; company","tip":"Roof gathering people under clouds → 会","words":[{"w":"会います","r":"あいます","m":"see (a person)","ex":"あした、友だちに会います。"}]},{"id":98,"day":4,"part":1,"kanji":"社","kun":"—","on":"シャ","meaning":"company; shrine","tip":"Altar (礻) + earth (土) → 社","words":[{"w":"会社","r":"かいしゃ","m":"company","ex":"土よう日も会社に行きます。"}]},{"id":99,"day":4,"part":1,"kanji":"店","kun":"みせ","on":"—","meaning":"store; shop","tip":"Roof/canopy (广) + stall (占) → 店","words":[{"w":"店","r":"みせ","m":"store; shop","ex":"この店で本を買いました。"}]},{"id":100,"day":4,"part":1,"kanji":"飲","kun":"の(みます)","on":"—","meaning":"drink","tip":"Food (食) + open mouth/yawn (欠) → 飲","words":[{"w":"飲みます","r":"のみます","m":"drink","ex":"コーヒーを飲みに行きませんか。"}]},{"id":101,"day":4,"part":2,"kanji":"多","kun":"おお(い)","on":"—","meaning":"many; a lot of","tip":"Two evenings (夕+夕) stacked = many → 多","words":[{"w":"多い","r":"おおい","m":"a lot of; many","ex":"東京は車が多いです。"}]},{"id":102,"day":4,"part":2,"kanji":"少","kun":"すこ(し)、すく(ない)","on":"—","meaning":"a little; few","tip":"Small (小) shaved down even less → 少","words":[{"w":"少し","r":"すこし","m":"a little","ex":"少しビールを飲みました。"},{"w":"少ない","r":"すくない","m":"not many/much","ex":"私の家の近くは店が少ないです。"}]},{"id":103,"day":4,"part":2,"kanji":"古","kun":"ふる(い)","on":"—","meaning":"old","tip":"Ten (十) mouths (口) passing down old tales → 古","words":[{"w":"古い","r":"ふるい","m":"old","ex":"この電話は古いです。"}]},{"id":104,"day":4,"part":2,"kanji":"新","kun":"あたら(しい)","on":"シン","meaning":"new","tip":"Stand (立) + wood (木) + ax (斤) → 新","words":[{"w":"新しい","r":"あたらしい","m":"new","ex":"先月デパートで新しいバッグを買いました。"},{"w":"新聞","r":"しんぶん","m":"newspaper","ex":"これは日本語の新聞です。"}]},{"id":105,"day":4,"part":2,"kanji":"広","kun":"ひろ(い)","on":"—","meaning":"spacious; wide","tip":"Wide roof (广) over open space (ム) → 広","words":[{"w":"広い","r":"ひろい","m":"spacious; wide","ex":"私の家はとても広いです。"}]},{"id":106,"day":4,"part":2,"kanji":"安","kun":"やす(い)","on":"—","meaning":"inexpensive; cheap","tip":"Woman (女) safe under roof (宀) → 安","words":[{"w":"安い","r":"やすい","m":"inexpensive; cheap","ex":"この車は安いです。"}]},{"id":107,"day":4,"part":2,"kanji":"立","kun":"た(ちます)","on":"—","meaning":"stand","tip":"Person standing firmly on ground → 立","words":[{"w":"立ちます","r":"たちます","m":"stand","ex":"男の人がコンビニの前に立っています。"}]},{"id":108,"day":4,"part":2,"kanji":"知","kun":"し(ります)","on":"—","meaning":"know","tip":"Arrow (矢) + mouth (口) = quick knowledge → 知","words":[{"w":"知ります","r":"しります","m":"know","ex":"あの女の人を知っていますか。"}]},{"id":109,"day":4,"part":2,"kanji":"言","kun":"い(います)、こと","on":"—","meaning":"say; tell; word","tip":"Sound waves rising from mouth (口) → 言","words":[{"w":"言います","r":"いいます","m":"say; tell","ex":"山中さんは明日会社に来ると言いました。"},{"w":"言葉","r":"ことば","m":"word; language","ex":"その言葉を知っていますか。"}]},{"id":110,"day":4,"part":2,"kanji":"思","kun":"おも(います)","on":"—","meaning":"think","tip":"Brain/field (田) over heart (心) → 思","words":[{"w":"思います","r":"おもいます","m":"think","ex":"日本の食べものはおいしいと思います。"}]},{"id":111,"day":4,"part":3,"kanji":"歩","kun":"ある(きます)","on":"—","meaning":"walk","tip":"Footprints stepping forward (止+少) → 歩","words":[{"w":"歩きます","r":"あるきます","m":"walk","ex":"きのう会社まで歩いて行きました。"}]},{"id":112,"day":4,"part":3,"kanji":"走","kun":"はし(ります)","on":"—","meaning":"run","tip":"Earth (土) + fast-moving legs → 走","words":[{"w":"走ります","r":"はしります","m":"run","ex":"時間がありませんから、走りましょう。"}]},{"id":113,"day":4,"part":3,"kanji":"住","kun":"す(みます)","on":"—","meaning":"live; reside","tip":"Person (亻) + main candle/home (主) → 住","words":[{"w":"住みます","r":"すみます","m":"live","ex":"私は学校の近くに住んでいます。"}]},{"id":114,"day":4,"part":3,"kanji":"空","kun":"そら","on":"—","meaning":"sky; empty","tip":"Hole/vault (穴) + craft (工) → 空","words":[{"w":"空","r":"そら","m":"sky","ex":"今日は空がきれいですね。"}]},{"id":115,"day":4,"part":3,"kanji":"週","kun":"—","on":"シュウ","meaning":"week","tip":"Road (辶) going around a full cycle (周) → 週","words":[{"w":"週","r":"しゅう","m":"week","ex":"その週は、日本にいませんでした。"},{"w":"来週","r":"らいしゅう","m":"next week","ex":"来週、私の家に来てください。"},{"w":"今週","r":"こんしゅう","m":"this week","ex":"今週は雨が多かったです。"}]},{"id":116,"day":4,"part":3,"kanji":"魚","kun":"さかな","on":"—","meaning":"fish","tip":"Fish head, scales (田), and tail (灬) → 魚","words":[{"w":"魚","r":"さかな","m":"fish","ex":"魚りょうりを食べました。"},{"w":"魚屋","r":"さかなや","m":"fish store","ex":"魚屋は花屋のとなりです。"}]},{"id":117,"day":4,"part":3,"kanji":"耳","kun":"みみ","on":"—","meaning":"ear","tip":"Side view of an ear → 耳","words":[{"w":"耳","r":"みみ","m":"ear","ex":"うさぎ(rabbit)は耳が長いです。"}]},{"id":118,"day":4,"part":3,"kanji":"銀","kun":"—","on":"ギン","meaning":"silver; bank","tip":"Metal/gold (金) + root (艮) → 銀","words":[{"w":"銀","r":"ぎん","m":"silver","ex":"銀のスプーンを買いました。"},{"w":"銀行","r":"ぎんこう","m":"bank","ex":"銀行は三時までです。"}]},{"id":119,"day":4,"part":3,"kanji":"道","kun":"みち","on":"—","meaning":"road; street","tip":"Road (辶) + head/direction (首) → 道","words":[{"w":"道","r":"みち","m":"road; street","ex":"家の前の道は広いです。"}]},{"id":120,"day":4,"part":3,"kanji":"駅","kun":"—","on":"エキ","meaning":"station","tip":"Horse (馬) relay stop (尺) → 駅","words":[{"w":"駅","r":"えき","m":"station","ex":"私の家は駅から歩いて十分です。"}]}];
+    const KANJI_MAP = new Map(KANJI_LIST.map(k => [k.id, k]));
+    const KANJI_DAYS = [
+      { day: 1, title: 'Numbers, Nature & People', subtitle: 'Kanji #1–30 (30 Kanji)', icon: '🌅', range: [1, 30] },
+      { day: 2, title: 'Directions, Family, School & Time', subtitle: 'Kanji #31–60 (30 Kanji)', icon: '🏯', range: [31, 60] },
+      { day: 3, title: 'Actions, Weather, Body & Life', subtitle: 'Kanji #61–90 (30 Kanji)', icon: '⚡', range: [61, 90] },
+      { day: 4, title: 'Time of Day, Home, Verbs & Places', subtitle: 'Kanji #91–120 (30 Kanji)', icon: '🐉', range: [91, 120] }
+    ];
 
     const STORAGE_KEY = 'jlpt_n5_minna_quest_v2';
     const POS_STYLES = {
@@ -225,11 +245,14 @@
         badges: [],            // unlocked badge IDs
         audioEnabled: true,
         lastActiveDate: new Date().toISOString().slice(0, 10),
-        updatedAt: 0
+        updatedAt: 0,
+        kanjiCurrentDay: 1,
+        kanjiMastered: [],
+        kanjiWeak: {}
       };
     }
 
-    const PRELOADED_PROGRESS = {"currentDay":2,"xp":49875,"streak":87,"bestStreak":110,"mastered":[1,2,3,4,5,6,7,8,9,10,11,14,15,17,19,20,12,16,13,53,122,93,45,79,27,60,97,57,72,18,30,76,62,21,22,23,24,25,26,28,29,69,52,40,106,92,38,34,56,71,110,31,32,33,35,36,37,39,41,42,43,44,46,47,67,89,121,48,49,50,51,54,55,58,59,61,63,64,65,66,68,70,73,74,75,77,78,80,81,83,82,84,85,86,87,88,90,91,103,95,102,98,100,101,99,96,94,104,105,107,109,111,113,108,112,114,115,116,117,118,119,120,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,168,164,165,166,167,169,170,171,172],"knownSkipped":[1,2,3,4,5,6,7,8,9,11,14,15,17,19,20,12,13,18,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,78,79,80,81,84,85,86,87,88,89,90,91,92,104,105,106,107,109,110,111,113,108,112,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172],"weakWords":{},"bossesDefeated":[1],"badges":["first_blood","combo_king","fast_skip","century","boss_slayer"],"audioEnabled":false,"lastActiveDate":"2026-11-21","updatedAt":1};
+    const PRELOADED_PROGRESS = {"currentDay":3,"xp":64390,"streak":0,"bestStreak":110,"mastered":[1,2,3,4,5,6,7,8,9,10,11,14,15,17,19,20,12,16,13,53,122,93,45,79,27,60,97,57,72,18,30,76,62,21,22,23,24,25,26,28,29,69,52,40,106,92,38,34,56,71,110,31,32,33,35,36,37,39,41,42,43,44,46,47,67,89,121,48,49,50,51,54,55,58,59,61,63,64,65,66,68,70,73,74,75,77,78,80,81,83,82,84,85,86,87,88,90,91,103,95,102,98,100,101,99,96,94,104,105,107,109,111,113,108,112,114,115,116,117,118,119,120,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,168,164,165,166,167,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,301,303,304,305,277,249,273,264,267,244,297,256,307,308,309,310,311,312,219,220,1011,939,938,936,935,302,306,222,221,238,239,359,357,358,363,364,366,509,510,511,512,513,514,515,516,517,518,520,526,536,538,542,543,540,541,242,241,240,252,253,254,255,250,251,266,268,271,272,276,280,283],"knownSkipped":[1,2,3,4,5,6,7,8,9,11,14,15,17,19,20,12,13,18,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,78,79,80,81,84,85,86,87,88,89,90,91,92,104,105,106,107,109,110,111,113,108,112,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,301,302,303,304,305,306,307,308,309,310,311,312,219,220,1011,939,938,936,935,222,221,238,239,359,357,358,363,364,366,509,510,511,512,513,514,515,516,517,518,520,526,536,538,542,543,540,541,242,241,240,252,253,254,255,250,251,266,268,271,272,276,280,283],"weakWords":{},"bossesDefeated":[1,2],"badges":["first_blood","combo_king","fast_skip","century","boss_slayer"],"audioEnabled":true,"lastActiveDate":"2026-11-21","updatedAt":1};
 
     function loadState() {
       try {
@@ -469,30 +492,99 @@
     if ('speechSynthesis' in window && window.speechSynthesis.onvoiceschanged !== undefined) {
       window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
     }
+    let cachedJpVoice = null;
+    function refreshJpVoice() {
+      try {
+        if (!('speechSynthesis' in window)) return;
+        const voices = window.speechSynthesis.getVoices() || [];
+        cachedJpVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('ja')) || null;
+      } catch (e) {}
+    }
+    if ('speechSynthesis' in window) {
+      refreshJpVoice();
+      if (typeof window.speechSynthesis.onvoiceschanged !== 'undefined') {
+        window.speechSynthesis.onvoiceschanged = refreshJpVoice;
+      }
+    }
+
+    let fallbackAudioEl = null;
+    let showedVoiceHint = false;
+
+    function playOnlineJpFallback(clean, force) {
+      try {
+        if (fallbackAudioEl) {
+          try { fallbackAudioEl.pause(); } catch (e) {}
+          fallbackAudioEl = null;
+        }
+        const url = 'https://translate.googleapis.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=' + encodeURIComponent(clean);
+        const audio = new Audio();
+        audio.referrerPolicy = 'no-referrer';
+        audio.src = url;
+        fallbackAudioEl = audio;
+        const p = audio.play();
+        if (p && typeof p.catch === 'function') {
+          p.catch(() => {
+            if (force && !showedVoiceHint) {
+              showedVoiceHint = true;
+              showToast('No Japanese voice in browser. Install Windows Japanese Speech or try Chrome/Edge.', 'amber');
+            }
+          });
+        }
+      } catch (e) {
+        if (force && !showedVoiceHint) {
+          showedVoiceHint = true;
+          showToast('No Japanese voice in browser. Install Windows Japanese Speech or try Chrome/Edge.', 'amber');
+        }
+      }
+    }
+
     function speakJP(text, force = false) {
       if (!state.audioEnabled && !force) return;
       try {
-        if (!('speechSynthesis' in window)) return;
-        const clean = String(text || '').replace(/～|~/g, '').replace(/\(.*?\)/g, '').split('/')[0].trim();
+        const clean = String(text || '').replace(/～|~/g, '').replace(/（.*?）/g, '').replace(/\(.*?\)/g, '').split('/')[0].trim();
         if (!clean) return;
         lastSpokenText = clean;
-        if (speakTimer) clearTimeout(speakTimer);
-        window.speechSynthesis.cancel();
-        if (window.speechSynthesis.paused) window.speechSynthesis.resume();
-        speakTimer = setTimeout(() => {
+        if (speakTimer) { clearTimeout(speakTimer); speakTimer = null; }
+        if (fallbackAudioEl) { try { fallbackAudioEl.pause(); } catch (e) {} fallbackAudioEl = null; }
+
+        if (!('speechSynthesis' in window)) {
+          playOnlineJpFallback(clean, force);
+          return;
+        }
+
+        if (!cachedJpVoice) refreshJpVoice();
+
+        // If browser (e.g. Brave without Windows Japanese voice pack) has no ja-JP voice, use online TTS fallback
+        if (!cachedJpVoice) {
+          playOnlineJpFallback(clean, force);
+          return;
+        }
+
+        const runSpeak = () => {
           try {
+            if (window.speechSynthesis.paused) window.speechSynthesis.resume();
             const utter = new SpeechSynthesisUtterance(clean);
             utter.lang = 'ja-JP';
-            utter.rate = 0.92;
-            const voices = window.speechSynthesis.getVoices();
-            const jpVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('ja'));
-            if (jpVoice) utter.voice = jpVoice;
+            utter.rate = 0.9;
+            utter.voice = cachedJpVoice;
             activeUtterance = utter;
             utter.onend = () => { activeUtterance = null; };
-            utter.onerror = () => { activeUtterance = null; };
+            utter.onerror = () => {
+              activeUtterance = null;
+              playOnlineJpFallback(clean, force);
+            };
             window.speechSynthesis.speak(utter);
-          } catch (e) {}
-        }, 60);
+          } catch (e) {
+            playOnlineJpFallback(clean, force);
+          }
+        };
+
+        if (window.speechSynthesis.speaking || window.speechSynthesis.pending) {
+          window.speechSynthesis.cancel();
+          speakTimer = setTimeout(runSpeak, 60);
+        } else {
+          runSpeak();
+        }
       } catch (e) {}
     }
 
@@ -729,6 +821,11 @@
       document.getElementById('hud-lvl').textContent = `Lv.${getLevel(state.xp)}`;
       document.getElementById('hud-xp').textContent = `${state.xp.toLocaleString()} XP`;
       document.getElementById('hud-weak-count').textContent = Object.keys(state.weakWords).length;
+
+      const tvEl = document.getElementById('tab-vocab-count');
+      const tkEl = document.getElementById('tab-kanji-count');
+      if (tvEl) tvEl.textContent = `${totalMastered}/${WORDS.length}`;
+      if (tkEl) tkEl.textContent = `${(state.kanjiMastered || []).length}/${KANJI_LIST.length}`;
 
       const audioBtn = document.getElementById('btn-toggle-audio');
       audioBtn.innerHTML = state.audioEnabled
@@ -1830,24 +1927,34 @@
     }
 
     // Traditional Shuffled MCQ Test
-    function startCustomMCQ(wordPool) {
+    function startCustomMCQ(wordPool, opts = {}) {
       clearAllTimers();
       view = 'custom_mcq';
+      const shuffledAll = shuffle(wordPool);
+      const limit = opts.limit && opts.limit > 0 ? Math.min(opts.limit, shuffledAll.length) : shuffledAll.length;
       session = {
         pool: wordPool.slice(),
-        queue: shuffle(wordPool),
+        queue: shuffledAll.slice(0, limit),
         idx: 0,
         hits: 0,
         misses: 0,
         locked: false,
-        options: []
+        options: [],
+        returnTo: opts.returnTo || 'dashboard',
+        label: opts.label || 'SHUFFLED MCQ',
+        limit: opts.limit || 0
       };
       setupCustomMCQTurn();
     }
 
     function setupCustomMCQTurn() {
       if (session.idx >= session.queue.length) {
-        renderCustomTestSummary('Shuffled MCQ Test', '📋', () => startCustomMCQ(session.pool));
+        const title = session.label === 'ALL LEARNED MCQ' ? 'All Learned MCQ Test' : 'Shuffled MCQ Test';
+        renderCustomTestSummary(title, '📋', () => startCustomMCQ(session.pool, {
+          returnTo: session.returnTo,
+          label: session.label,
+          limit: session.limit
+        }));
         return;
       }
       const target = session.queue[session.idx];
@@ -1865,8 +1972,8 @@
       root.innerHTML = `
         <div class="max-w-2xl mx-auto">
           <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
-            <button id="btn-back-dash" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300">← Dashboard</button>
-            <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-cyan-500/20 text-cyan-200 border border-cyan-400/40">📋 SHUFFLED MCQ · ${session.idx + 1} / ${session.queue.length}</span>
+            <button id="btn-back-dash" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300">${session.returnTo === 'codex' ? '← 25-Lesson Codex' : '← Dashboard'}</button>
+            <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-cyan-500/20 text-cyan-200 border border-cyan-400/40">📋 ${session.label || 'SHUFFLED MCQ'} · ${session.idx + 1} / ${session.queue.length}</span>
             <button id="btn-mcq-audio" class="px-2.5 py-1 rounded-xl text-xs font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-400/40">🔊 <span class="kbd-chip ml-1">Space</span></button>
           </div>
 
@@ -1891,7 +1998,7 @@
         </div>
       `;
 
-      document.getElementById('btn-back-dash').addEventListener('click', renderDashboard);
+      document.getElementById('btn-back-dash').addEventListener('click', () => session.returnTo === 'codex' ? renderCodex() : renderDashboard());
       document.getElementById('btn-mcq-audio').addEventListener('click', () => speakJP(target.kana, true));
       root.querySelectorAll('[data-mcq-opt]').forEach(btn => {
         btn.addEventListener('click', (e) => handleCustomMCQChoice(Number(btn.dataset.mcqOpt), e.clientX, e.clientY));
@@ -2043,7 +2150,7 @@
         <div class="max-w-xl mx-auto glass rounded-3xl p-7 text-center border border-cyan-400/40 neon-glow-cyan animate-pop">
           <div class="text-5xl mb-3">${icon}</div>
           <h2 class="text-2xl font-black text-white mb-1">${title} Complete!</h2>
-          <p class="text-sm text-slate-300 mb-5">Tested ${session.pool.length} words in random order.</p>
+          <p class="text-sm text-slate-300 mb-5">Tested ${session.queue.length} words in random order.</p>
           <div class="grid grid-cols-3 gap-3 mb-6">
             <div class="p-3 rounded-2xl bg-white/5 border border-white/10">
               <div class="text-xs text-slate-400">Correct</div>
@@ -2096,6 +2203,30 @@
               </select>
             </div>
           </div>
+          <div class="glass rounded-2xl p-3.5 mb-4 border border-cyan-400/30 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5">
+              <span class="text-xl">📋</span>
+              <div>
+                <div class="text-sm font-black text-white">Test Your Learned Words (All 25 Lessons)</div>
+                <div id="codex-mcq-sub" class="text-xs text-slate-400">${state.mastered.length} learned words ready for a freshly shuffled MCQ quiz</div>
+              </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <select id="codex-mcq-count" class="px-3 py-2 rounded-xl bg-slate-900/90 border border-white/15 text-xs font-bold text-white">
+                <option value="all">All Words</option>
+                <option value="20">Random 20</option>
+                <option value="50">Random 50</option>
+                <option value="100">Random 100</option>
+              </select>
+              <button id="btn-codex-mcq-learned" class="px-4 py-2 rounded-xl text-xs font-black bg-gradient-to-r from-cyan-500 to-blue-600 hover:brightness-110 text-white shadow-lg transition">
+                📋 MCQ: All Learned (${state.mastered.length})
+              </button>
+              <button id="btn-codex-mcq-filtered" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-purple-500/20 hover:bg-purple-500/30 border border-purple-400/40 text-purple-200 transition">
+                🎯 MCQ: Filtered (${WORDS.length})
+              </button>
+            </div>
+          </div>
+
           <p class="text-xs text-slate-400 mb-3">Click any word card to open its full flashcard with Hiragana, Romaji, and a 1-line example sentence explained in English.</p>
           <div id="codex-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
         </div>
@@ -2104,6 +2235,31 @@
       const searchEl = document.getElementById('codex-search');
       const dayEl = document.getElementById('codex-day');
       const statusEl = document.getElementById('codex-status');
+      const mcqCountEl = document.getElementById('codex-mcq-count');
+      const mcqLearnedBtn = document.getElementById('btn-codex-mcq-learned');
+      const mcqFilteredBtn = document.getElementById('btn-codex-mcq-filtered');
+      const mcqSubEl = document.getElementById('codex-mcq-sub');
+      let latestFilteredWords = WORDS;
+
+      mcqLearnedBtn.addEventListener('click', () => {
+        const masteredSet = new Set(state.mastered);
+        const learnedWords = WORDS.filter(w => masteredSet.has(w.id));
+        if (learnedWords.length < 2) {
+          showToast('Learn at least 2 words first to start an MCQ test!', 'rose');
+          return;
+        }
+        const limitVal = mcqCountEl.value === 'all' ? 0 : Number(mcqCountEl.value);
+        startCustomMCQ(learnedWords, { returnTo: 'codex', label: 'ALL LEARNED MCQ', limit: limitVal });
+      });
+
+      mcqFilteredBtn.addEventListener('click', () => {
+        if (latestFilteredWords.length < 2) {
+          showToast('Need at least 2 words in the current filter for MCQ!', 'rose');
+          return;
+        }
+        const limitVal = mcqCountEl.value === 'all' ? 0 : Number(mcqCountEl.value);
+        startCustomMCQ(latestFilteredWords, { returnTo: 'codex', label: 'CODEX FILTERED MCQ', limit: limitVal });
+      });
 
       function openCodexFlashcard(wordId) {
         const w = WORD_MAP.get(wordId);
@@ -2172,9 +2328,11 @@
         const statusVal = statusEl.value;
         const masteredSet = new Set(state.mastered);
 
-        // Keep live counts updated in dropdown
+        // Keep live counts updated in dropdown and MCQ buttons
         statusEl.options[1].textContent = `✓ Learned Only (${state.mastered.length})`;
         statusEl.options[3].textContent = `👾 Weak Monsters (${Object.keys(state.weakWords).length})`;
+        mcqLearnedBtn.textContent = `📋 MCQ: All Learned (${state.mastered.length})`;
+        mcqSubEl.textContent = `${state.mastered.length} learned words ready for a freshly shuffled MCQ quiz`;
 
         const filtered = WORDS.filter(w => {
           if (dayVal !== 'all' && w.lesson !== Number(dayVal)) return false;
@@ -2184,6 +2342,8 @@
           if (!q) return true;
           return w.kana.includes(q) || w.kanji.includes(q) || w.romaji.toLowerCase().includes(q) || w.meaning.toLowerCase().includes(q);
         });
+        latestFilteredWords = filtered;
+        mcqFilteredBtn.textContent = `🎯 MCQ: Filtered (${filtered.length})`;
         const listEl = document.getElementById('codex-list');
         if (filtered.length === 0) {
           listEl.innerHTML = `<div class="col-span-full glass rounded-2xl p-8 text-center text-sm text-slate-400">No words match this filter yet.</div>`;
@@ -2366,6 +2526,10 @@
           e.preventDefault(); speakJP(session.queue[session.idx].kana, true);
         } else if ((view === 'custom_mcq' || view === 'custom_cards') && session && session.queue[session.idx]) {
           e.preventDefault(); speakJP(session.queue[session.idx].kana, true);
+        } else if (view === 'kanji_forge' && session && session.pool[session.idx]) {
+          e.preventDefault(); speakJP(getKanjiPrimaryReading(session.pool[session.idx]), true);
+        } else if ((view === 'kanji_mcq' || view === 'kanji_cards') && session && session.queue[session.idx]) {
+          e.preventDefault(); speakJP(getKanjiPrimaryReading(session.queue[session.idx]), true);
         }
       } else if (e.code === 'Enter') {
         if (view === 'forge') {
@@ -2380,6 +2544,15 @@
         } else if (view === 'custom_cards') {
           const flipBtn = document.getElementById('btn-fc-flip');
           if (flipBtn) { e.preventDefault(); flipBtn.click(); }
+        } else if (view === 'kanji_forge') {
+          const btn = document.getElementById('kf-master');
+          if (btn) { e.preventDefault(); btn.click(); }
+        } else if (view === 'kanji_mcq') {
+          const btn = document.getElementById('kmcq-next');
+          if (btn) { e.preventDefault(); btn.click(); }
+        } else if (view === 'kanji_cards') {
+          const card = document.getElementById('kfc-card');
+          if (card && !session.flipped) { e.preventDefault(); card.click(); }
         }
       } else if (e.key.toLowerCase() === 'k') {
         if (view === 'forge') {
@@ -2392,6 +2565,7 @@
         else if (view === 'detective') handleDetectiveChoice(idx);
         else if (view === 'boss') handleBossChoice(idx);
         else if (view === 'custom_mcq') handleCustomMCQChoice(idx);
+        else if (view === 'kanji_mcq') handleKanjiMCQChoice(idx);
       }
     });
 
@@ -2502,7 +2676,859 @@
       });
     }
 
-    document.getElementById('btn-home-logo').addEventListener('click', renderDashboard);
+
+    // =========================================================================
+    // KANJI 120 SECTION (4 DAYS · 30 KANJI PER DAY · MLC BASIC KANJI 120)
+    // =========================================================================
+    function setSectionTab(section) {
+      const vTab = document.getElementById('nav-tab-vocab');
+      const kTab = document.getElementById('nav-tab-kanji');
+      if (!vTab || !kTab) return;
+      if (section === 'kanji') {
+        kTab.className = 'px-4 py-1.5 rounded-xl text-xs sm:text-sm font-black transition bg-gradient-to-r from-amber-500/25 to-rose-500/25 border border-amber-400/50 text-white';
+        vTab.className = 'px-4 py-1.5 rounded-xl text-xs sm:text-sm font-black transition bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300';
+      } else {
+        vTab.className = 'px-4 py-1.5 rounded-xl text-xs sm:text-sm font-black transition bg-gradient-to-r from-cyan-500/25 to-purple-500/25 border border-cyan-400/50 text-white';
+        kTab.className = 'px-4 py-1.5 rounded-xl text-xs sm:text-sm font-black transition bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300';
+      }
+    }
+
+    function getKanjiDayList(dayNum) {
+      return KANJI_LIST.filter(k => k.day === dayNum);
+    }
+
+    function getKanjiDayParts(dayNum) {
+      const list = getKanjiDayList(dayNum);
+      return [1, 2, 3].map(p => list.filter(k => k.part === p));
+    }
+
+    function getKanjiDayMastered(dayNum) {
+      const mSet = new Set(state.kanjiMastered || []);
+      return getKanjiDayList(dayNum).filter(k => mSet.has(k.id)).length;
+    }
+
+    function markKanjiMastered(kanjiId) {
+      if (!Array.isArray(state.kanjiMastered)) state.kanjiMastered = [];
+      if (!state.kanjiMastered.includes(kanjiId)) state.kanjiMastered.push(kanjiId);
+      if (state.kanjiWeak && state.kanjiWeak[kanjiId]) {
+        state.kanjiWeak[kanjiId].streak = (state.kanjiWeak[kanjiId].streak || 0) + 1;
+        if (state.kanjiWeak[kanjiId].streak >= 2) delete state.kanjiWeak[kanjiId];
+      }
+      saveState();
+      updateHUD();
+    }
+
+    function markKanjiWeak(kanjiId) {
+      if (!state.kanjiWeak) state.kanjiWeak = {};
+      if (!state.kanjiWeak[kanjiId]) state.kanjiWeak[kanjiId] = { streak: 0, misses: 0 };
+      state.kanjiWeak[kanjiId].streak = 0;
+      state.kanjiWeak[kanjiId].misses += 1;
+      saveState();
+      updateHUD();
+    }
+
+    function cleanKanjiReading(str) {
+      return String(str || '').replace(/[()]/g, '').trim();
+    }
+
+    function getKanjiPrimaryReading(k) {
+      const parts = [];
+      if (k.kun && k.kun !== '—') parts.push(cleanKanjiReading(k.kun));
+      if (k.on && k.on !== '—') parts.push(cleanKanjiReading(k.on));
+      if (parts.length) return parts.join('、');
+      return k.words && k.words[0] ? k.words[0].r : k.kanji;
+    }
+
+    function getKanjiFullReadingLabel(k) {
+      const parts = [];
+      if (k.kun && k.kun !== '—') parts.push(k.kun);
+      if (k.on && k.on !== '—') parts.push(k.on);
+      return parts.join(' / ');
+    }
+
+    function pickKanjiDistractors(target, pool, count = 3) {
+      const candidates = (pool.length >= count + 1 ? pool : KANJI_LIST).filter(k => k.id !== target.id && k.meaning !== target.meaning);
+      return shuffle(candidates).slice(0, count);
+    }
+
+    function renderKanjiDashboard() {
+      clearAllTimers();
+      view = 'kanji_dashboard';
+      setSectionTab('kanji');
+      const curDay = state.kanjiCurrentDay || 1;
+      const dayMeta = KANJI_DAYS[curDay - 1] || KANJI_DAYS[0];
+      const dayKanji = getKanjiDayList(curDay);
+      const dayMastered = getKanjiDayMastered(curDay);
+      const dayPct = Math.round((dayMastered / dayKanji.length) * 100);
+      const totalMastered = (state.kanjiMastered || []).length;
+      const mSet = new Set(state.kanjiMastered || []);
+      const parts = getKanjiDayParts(curDay);
+
+      const root = document.getElementById('app-root');
+      root.innerHTML = `
+        <div class="space-y-6">
+          <!-- Header & Actions -->
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">4-Day Basic Kanji 120 Plan</h1>
+              <p class="text-xs sm:text-sm text-slate-400">MLC JLPT N5 Basic Kanji 120 · 30 Kanji per day · Total Mastered: <strong class="text-amber-300">${totalMastered} / 120</strong></p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <button id="btn-kanji-codex" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/40 text-amber-200 transition">
+                📖 120-Kanji Codex (${totalMastered}/120)
+              </button>
+              <button id="btn-kanji-all-learned-mcq" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-black bg-gradient-to-r from-cyan-500 to-blue-600 hover:brightness-110 text-white shadow-lg transition">
+                📋 MCQ: Learned Kanji (${totalMastered})
+              </button>
+            </div>
+          </div>
+
+          <!-- 4-Day Roadmap Grid -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            ${KANJI_DAYS.map(d => {
+              const m = getKanjiDayMastered(d.day);
+              const pct = Math.round((m / 30) * 100);
+              const active = d.day === curDay;
+              const cleared = m >= 30;
+              return `
+                <button data-kanji-day="${d.day}" class="glass rounded-2xl p-4 text-left transition border ${active ? 'border-amber-400 neon-glow-orange bg-amber-500/10' : 'border-white/10 hover:border-white/25'}">
+                  <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-xs font-extrabold uppercase tracking-wider ${active ? 'text-amber-300' : 'text-slate-400'}">Day ${d.day}</span>
+                    <span class="text-xl">${cleared ? '👑' : d.icon}</span>
+                  </div>
+                  <div class="font-black text-sm text-white leading-snug mb-0.5">${d.title}</div>
+                  <div class="text-[11px] text-slate-400 mb-3">${d.subtitle}</div>
+                  <div class="h-1.5 rounded-full bg-slate-800 overflow-hidden mb-1">
+                    <div class="h-full rounded-full ${cleared ? 'bg-emerald-400' : 'bg-gradient-to-r from-amber-400 to-rose-500'}" style="width:${pct}%"></div>
+                  </div>
+                  <div class="flex justify-between text-[11px] font-bold">
+                    <span class="text-slate-300">${m} / 30</span>
+                    <span class="${cleared ? 'text-emerald-300' : 'text-amber-300'}">${pct}%</span>
+                  </div>
+                </button>
+              `;
+            }).join('')}
+          </div>
+
+          <!-- Active Day Banner -->
+          <div class="glass rounded-3xl p-5 sm:p-6 border border-amber-400/30">
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+              <div>
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase bg-amber-500/20 text-amber-300 border border-amber-400/40">KANJI DAY ${curDay} OF 4</span>
+                  <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-white/5 text-slate-300 border border-white/10">Kanji #${dayMeta.range[0]} – #${dayMeta.range[1]}</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-black text-white">${dayMeta.icon} ${dayMeta.title}</h2>
+                <p class="text-xs sm:text-sm text-slate-300 mt-1">Daily Quota: <strong class="text-amber-300">${dayMastered} / 30 Kanji</strong> (${dayPct}%) · All 4 Days: <strong class="text-white">${totalMastered} / 120</strong></p>
+              </div>
+              <div class="flex flex-wrap items-center gap-2.5">
+                <button id="btn-kanji-day-test" class="px-5 py-3 rounded-2xl font-black text-sm bg-gradient-to-r from-amber-500 to-rose-600 hover:brightness-110 text-white shadow-lg transition">
+                  📝 Day ${curDay} Custom Test (MCQ / Cards)
+                </button>
+              </div>
+            </div>
+            <div class="h-2.5 rounded-full bg-slate-800/90 overflow-hidden border border-white/10">
+              <div class="h-full rounded-full bg-gradient-to-r from-amber-400 via-orange-500 to-rose-500 transition-all duration-500" style="width:${dayPct}%"></div>
+            </div>
+          </div>
+
+          <!-- 3 Parts of 10 Kanji -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            ${parts.map((partList, idx) => {
+              const pNum = idx + 1;
+              const startId = partList[0].id;
+              const endId = partList[partList.length - 1].id;
+              const done = partList.filter(k => mSet.has(k.id)).length;
+              const pPct = Math.round((done / partList.length) * 100);
+              return `
+                <div class="glass rounded-3xl p-5 border ${done === partList.length ? 'border-emerald-400/40' : 'border-white/10'} flex flex-col justify-between">
+                  <div>
+                    <div class="flex items-center justify-between mb-2">
+                      <span class="text-xs font-extrabold uppercase tracking-wider text-amber-300">Day ${curDay} · Part ${pNum}/3</span>
+                      <span class="px-2.5 py-0.5 rounded-full text-xs font-black ${done === partList.length ? 'bg-emerald-500/20 text-emerald-300' : 'bg-white/10 text-slate-300'}">${done} / ${partList.length}</span>
+                    </div>
+                    <div class="text-xs text-slate-400 mb-3">Kanji #${startId} – #${endId}</div>
+                    <div class="grid grid-cols-5 gap-1.5 mb-4">
+                      ${partList.map(k => `
+                        <button data-quick-kanji="${k.id}" title="${k.meaning}" class="py-2 rounded-xl font-jp text-lg font-black text-center transition border ${mSet.has(k.id) ? 'bg-emerald-500/20 border-emerald-400/40 text-emerald-200' : 'bg-slate-900/80 border-white/10 text-white hover:border-amber-400/60'}">
+                          ${k.kanji}
+                        </button>
+                      `).join('')}
+                    </div>
+                    <div class="h-1.5 rounded-full bg-slate-800 overflow-hidden mb-4">
+                      <div class="h-full rounded-full ${done === partList.length ? 'bg-emerald-400' : 'bg-amber-400'}" style="width:${pPct}%"></div>
+                    </div>
+                  </div>
+                  <div class="space-y-2">
+                    <button data-kanji-forge="${pNum}" class="w-full py-2.5 rounded-xl font-black text-sm bg-gradient-to-r from-amber-500 to-orange-600 hover:brightness-110 text-white shadow transition">
+                      🧠 Kanji Forge (10 Kanji)
+                    </button>
+                    <div class="grid grid-cols-2 gap-2">
+                      <button data-kanji-mcq="${pNum}" class="py-2 rounded-xl font-bold text-xs bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-400/35 text-cyan-200 transition">
+                        📋 MCQ Quiz
+                      </button>
+                      <button data-kanji-cards="${pNum}" class="py-2 rounded-xl font-bold text-xs bg-purple-500/15 hover:bg-purple-500/25 border border-purple-400/35 text-purple-200 transition">
+                        🃏 Flashcards
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+
+      root.querySelectorAll('[data-kanji-day]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.kanjiCurrentDay = Number(btn.dataset.kanjiDay);
+          saveState();
+          renderKanjiDashboard();
+        });
+      });
+
+      root.querySelectorAll('[data-quick-kanji]').forEach(btn => {
+        btn.addEventListener('click', () => openKanjiFlashcardModal(Number(btn.dataset.quickKanji), () => renderKanjiDashboard()));
+      });
+
+      root.querySelectorAll('[data-kanji-forge]').forEach(btn => {
+        btn.addEventListener('click', () => startKanjiForge(parts[Number(btn.dataset.kanjiForge) - 1], `Day ${curDay} · Part ${btn.dataset.kanjiForge}`));
+      });
+
+      root.querySelectorAll('[data-kanji-mcq]').forEach(btn => {
+        btn.addEventListener('click', () => startKanjiMCQ(parts[Number(btn.dataset.kanjiMcq) - 1], { returnTo: 'kanji_dashboard', label: `KANJI DAY ${curDay} PART ${btn.dataset.kanjiMcq} MCQ` }));
+      });
+
+      root.querySelectorAll('[data-kanji-cards]').forEach(btn => {
+        btn.addEventListener('click', () => startKanjiFlashcards(parts[Number(btn.dataset.kanjiCards) - 1], 'kanji_dashboard'));
+      });
+
+      document.getElementById('btn-kanji-codex').addEventListener('click', renderKanjiCodex);
+      document.getElementById('btn-kanji-day-test').addEventListener('click', () => openKanjiCustomTestModal(curDay));
+      document.getElementById('btn-kanji-all-learned-mcq').addEventListener('click', () => {
+        const learned = KANJI_LIST.filter(k => mSet.has(k.id));
+        if (learned.length < 2) {
+          showToast('Master at least 2 Kanji first to start a Learned Kanji MCQ!', 'rose');
+          return;
+        }
+        startKanjiMCQ(learned, { returnTo: 'kanji_dashboard', label: 'ALL LEARNED KANJI MCQ' });
+      });
+    }
+
+    // --- KANJI FORGE (10-KANJI STUDY MODE) ---
+    function startKanjiForge(kanjiPool, label) {
+      clearAllTimers();
+      view = 'kanji_forge';
+      setSectionTab('kanji');
+      session = {
+        pool: kanjiPool.slice(),
+        idx: 0,
+        label: label || 'Kanji Forge',
+        peekMode: false,
+        revealed: false
+      };
+      renderKanjiForgeCard();
+    }
+
+    function renderKanjiForgeCard() {
+      const k = session.pool[session.idx];
+      if (!k) { renderKanjiDashboard(); return; }
+      const isM = (state.kanjiMastered || []).includes(k.id);
+      const hidden = session.peekMode && !session.revealed;
+      speakJP(getKanjiPrimaryReading(k));
+
+      const root = document.getElementById('app-root');
+      root.innerHTML = `
+        <div class="max-w-2xl mx-auto">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+            <button id="kf-back" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300">← Kanji Dashboard</button>
+            <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-amber-500/20 text-amber-200 border border-amber-400/40">🧠 ${session.label} · ${session.idx + 1} / ${session.pool.length}</span>
+            <div class="flex items-center gap-2">
+              <button id="kf-peek" class="px-3 py-1.5 rounded-xl text-xs font-bold border transition ${session.peekMode ? 'bg-purple-500/30 border-purple-400/60 text-purple-200' : 'bg-white/5 border-white/10 text-slate-300'}">${session.peekMode ? '🙈 Peek ON' : '👁️ Peek OFF'}</button>
+              <button id="kf-speak" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-cyan-500/20 border border-cyan-400/40 text-cyan-200">🔊 Audio</button>
+            </div>
+          </div>
+
+          <div class="glass rounded-3xl p-6 sm:p-8 border border-amber-400/35 text-center animate-pop">
+            <div class="flex items-center justify-between text-xs text-slate-400 mb-2">
+              <span class="font-bold">Kanji #${k.id} · Day ${k.day}</span>
+              <span class="${isM ? 'text-emerald-300 font-bold' : 'text-slate-500'}">${isM ? '✓ Mastered' : 'Learning'}</span>
+            </div>
+
+            <button id="kf-kanji-tap" title="Click to hear reading" class="font-jp text-7xl sm:text-8xl font-black text-white my-3 hover:text-amber-200 transition cursor-pointer">${k.kanji}</button>
+
+            ${hidden ? `
+              <button id="kf-reveal" class="my-5 px-6 py-3 rounded-2xl font-black text-sm bg-purple-500/25 hover:bg-purple-500/35 border border-purple-400/50 text-purple-100 transition">
+                👆 Tap to Reveal Readings & Meaning
+              </button>
+            ` : `
+              <div class="grid grid-cols-2 gap-3 max-w-md mx-auto my-4">
+                <button id="kf-speak-kun" class="p-3 rounded-2xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-400/30 transition text-center">
+                  <div class="text-[10px] font-extrabold uppercase tracking-wider text-cyan-300">🔊 Kun'yomi (Japanese)</div>
+                  <div class="font-jp text-lg font-black text-white mt-0.5">${k.kun}</div>
+                </button>
+                <button id="kf-speak-on" class="p-3 rounded-2xl bg-purple-500/10 hover:bg-purple-500/20 border border-purple-400/30 transition text-center">
+                  <div class="text-[10px] font-extrabold uppercase tracking-wider text-purple-300">🔊 On'yomi (Chinese)</div>
+                  <div class="font-jp text-lg font-black text-white mt-0.5">${k.on}</div>
+                </button>
+              </div>
+
+              <div class="text-2xl sm:text-3xl font-black text-white mt-2">${k.meaning}</div>
+              <div class="mt-2 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/30 text-xs font-bold text-amber-200">
+                <span>💡</span> ${k.tip}
+              </div>
+
+              <div class="mt-5 text-left space-y-2">
+                <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">Prerequisite Vocabulary & Examples</div>
+                ${k.words.map((w, wi) => `
+                  <div class="p-3 rounded-2xl bg-slate-900/85 border border-white/10 flex items-start justify-between gap-3">
+                    <div>
+                      <div class="flex flex-wrap items-baseline gap-2">
+                        <span class="font-jp text-lg font-black text-white">${w.w}</span>
+                        <span class="font-jp text-sm font-bold text-cyan-300">${w.r}</span>
+                        <span class="text-xs font-semibold text-emerald-300">— ${w.m}</span>
+                      </div>
+                      <div class="font-jp text-xs text-slate-300 mt-1">${w.ex}</div>
+                    </div>
+                    <button data-kf-word-speak="${wi}" class="shrink-0 px-2.5 py-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/35 text-cyan-200 text-xs font-bold">🔊</button>
+                  </div>
+                `).join('')}
+              </div>
+            `}
+          </div>
+
+          <div class="mt-5 flex flex-wrap items-center justify-between gap-2.5">
+            <button id="kf-prev" class="px-4 py-3 rounded-2xl font-bold text-sm bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 ${session.idx === 0 ? 'opacity-40 pointer-events-none' : ''}">← Prev</button>
+            <div class="flex flex-wrap items-center gap-2">
+              <button id="kf-master" class="px-5 py-3 rounded-2xl font-black text-sm bg-gradient-to-r from-emerald-500 to-teal-600 hover:brightness-110 text-white shadow-lg transition">
+                ${isM ? '✓ Next Kanji →' : '✓ Mastered (+25 XP) →'}
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('kf-back').addEventListener('click', renderKanjiDashboard);
+      document.getElementById('kf-speak').addEventListener('click', () => speakJP(getKanjiPrimaryReading(k), true));
+      document.getElementById('kf-kanji-tap').addEventListener('click', () => speakJP(getKanjiPrimaryReading(k), true));
+      const kunBtn = document.getElementById('kf-speak-kun');
+      if (kunBtn) kunBtn.addEventListener('click', () => speakJP(k.kun !== '—' ? cleanKanjiReading(k.kun) : getKanjiPrimaryReading(k), true));
+      const onBtn = document.getElementById('kf-speak-on');
+      if (onBtn) onBtn.addEventListener('click', () => speakJP(k.on !== '—' ? cleanKanjiReading(k.on) : getKanjiPrimaryReading(k), true));
+      document.getElementById('kf-peek').addEventListener('click', () => {
+        session.peekMode = !session.peekMode;
+        session.revealed = false;
+        renderKanjiForgeCard();
+      });
+      const revBtn = document.getElementById('kf-reveal');
+      if (revBtn) revBtn.addEventListener('click', () => { session.revealed = true; renderKanjiForgeCard(); });
+
+      root.querySelectorAll('[data-kf-word-speak]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const item = k.words[Number(btn.dataset.kfWordSpeak)];
+          if (item) speakJP(item.ex || item.r, true);
+        });
+      });
+
+      document.getElementById('kf-prev').addEventListener('click', () => {
+        if (session.idx > 0) { session.idx--; session.revealed = false; renderKanjiForgeCard(); }
+      });
+
+      document.getElementById('kf-master').addEventListener('click', (e) => {
+        if (!(state.kanjiMastered || []).includes(k.id)) {
+          markKanjiMastered(k.id);
+          addXP(25, e.clientX, e.clientY);
+          playSfx('hit');
+        }
+        if (session.idx + 1 < session.pool.length) {
+          session.idx++;
+          session.revealed = false;
+          renderKanjiForgeCard();
+        } else {
+          showToast(`🎉 Finished ${session.label}! Ready for MCQ Quiz!`, 'emerald');
+          renderKanjiDashboard();
+        }
+      });
+    }
+
+    // --- KANJI CUSTOM DAY TEST MODAL ---
+    function openKanjiCustomTestModal(dayNum) {
+      const parts = getKanjiDayParts(dayNum);
+      const mSet = new Set(state.kanjiMastered || []);
+      openModal(`
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <h3 class="text-xl font-black text-white">📝 Kanji Day ${dayNum} Custom Test</h3>
+            <p class="text-xs text-slate-400">Select which parts (10 kanji each) to test in a freshly shuffled order.</p>
+          </div>
+          <button data-close-modal class="px-2.5 py-1 rounded-lg bg-white/10 text-xs font-bold text-slate-200">Close</button>
+        </div>
+
+        <div class="space-y-2.5 mb-5">
+          ${parts.map((pList, idx) => {
+            const done = pList.filter(k => mSet.has(k.id)).length;
+            return `
+              <label class="flex items-center justify-between p-3.5 rounded-2xl bg-slate-900/80 border border-white/10 cursor-pointer hover:border-amber-400/50 transition">
+                <div class="flex items-center gap-3">
+                  <input type="checkbox" data-kct-part="${idx}" checked class="w-4 h-4 accent-amber-400" />
+                  <div>
+                    <div class="font-extrabold text-sm text-white">Part ${idx + 1} (Kanji #${pList[0].id}–#${pList[pList.length - 1].id})</div>
+                    <div class="font-jp text-xs text-slate-400 tracking-widest mt-0.5">${pList.map(k => k.kanji).join(' ')}</div>
+                  </div>
+                </div>
+                <span class="text-xs font-bold ${done === pList.length ? 'text-emerald-300' : 'text-amber-300'}">${done}/${pList.length}</span>
+              </label>
+            `;
+          }).join('')}
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <button id="kct-mcq" class="py-3.5 px-4 rounded-2xl font-black text-sm bg-gradient-to-r from-cyan-500 to-blue-600 hover:brightness-110 text-white shadow-lg transition">📋 Start Shuffled Kanji MCQ</button>
+          <button id="kct-cards" class="py-3.5 px-4 rounded-2xl font-black text-sm bg-gradient-to-r from-purple-500 to-pink-600 hover:brightness-110 text-white shadow-lg transition">🃏 Start Shuffled Flashcards</button>
+        </div>
+      `);
+
+      const box = document.getElementById('modal-box');
+      function getPickedKanji() {
+        const list = [];
+        box.querySelectorAll('[data-kct-part]:checked').forEach(cb => list.push(...parts[Number(cb.dataset.kctPart)]));
+        return list;
+      }
+      document.getElementById('kct-mcq').addEventListener('click', () => {
+        const picked = getPickedKanji();
+        if (picked.length < 2) { showToast('Select at least 1 part!', 'rose'); return; }
+        closeModal();
+        startKanjiMCQ(picked, { returnTo: 'kanji_dashboard', label: `KANJI DAY ${dayNum} MCQ` });
+      });
+      document.getElementById('kct-cards').addEventListener('click', () => {
+        const picked = getPickedKanji();
+        if (picked.length < 1) { showToast('Select at least 1 part!', 'rose'); return; }
+        closeModal();
+        startKanjiFlashcards(picked, 'kanji_dashboard');
+      });
+    }
+
+    // --- SHUFFLED KANJI MCQ (MEANING + READING MIX) ---
+    function startKanjiMCQ(kanjiPool, opts = {}) {
+      clearAllTimers();
+      view = 'kanji_mcq';
+      setSectionTab('kanji');
+      const shuffledAll = shuffle(kanjiPool);
+      const limit = opts.limit && opts.limit > 0 ? Math.min(opts.limit, shuffledAll.length) : shuffledAll.length;
+      session = {
+        pool: kanjiPool.slice(),
+        queue: shuffledAll.slice(0, limit),
+        idx: 0,
+        hits: 0,
+        misses: 0,
+        locked: false,
+        qType: 'meaning',
+        options: [],
+        returnTo: opts.returnTo || 'kanji_dashboard',
+        label: opts.label || 'KANJI MCQ',
+        limit: opts.limit || 0
+      };
+      setupKanjiMCQTurn();
+    }
+
+    function setupKanjiMCQTurn() {
+      if (session.idx >= session.queue.length) {
+        renderKanjiTestSummary();
+        return;
+      }
+      const target = session.queue[session.idx];
+      session.qType = (session.idx % 2 === 0) ? 'meaning' : 'reading';
+      session.options = shuffle([target, ...pickKanjiDistractors(target, session.pool.length >= 4 ? session.pool : KANJI_LIST, 3)]);
+      session.locked = false;
+      renderKanjiMCQUI();
+    }
+
+    function renderKanjiMCQUI() {
+      const target = session.queue[session.idx];
+      const isReading = session.qType === 'reading';
+      const root = document.getElementById('app-root');
+      root.innerHTML = `
+        <div class="max-w-2xl mx-auto">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+            <button id="kmcq-back" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300">${session.returnTo === 'kanji_codex' ? '← 120-Kanji Codex' : '← Kanji Dashboard'}</button>
+            <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-amber-500/20 text-amber-200 border border-amber-400/40">📋 ${session.label} · ${session.idx + 1} / ${session.queue.length}</span>
+            <button id="kmcq-speak" class="px-2.5 py-1 rounded-xl text-xs font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-400/40">🔊 Hint</button>
+          </div>
+
+          <div class="glass rounded-3xl p-6 sm:p-8 border border-amber-400/35 text-center mb-5 animate-pop">
+            <div class="text-xs font-extrabold uppercase tracking-wider ${isReading ? 'text-cyan-300' : 'text-amber-300'} mb-2">
+              ${isReading ? 'Choose the Reading (Hiragana / Katakana)' : 'Choose the English Meaning'}
+            </div>
+            <div class="font-jp text-7xl sm:text-8xl font-black text-white my-2">${target.kanji}</div>
+            <div class="text-xs text-slate-400">Kanji #${target.id} · Day ${target.day}</div>
+            <div id="kmcq-feedback" class="mt-4"></div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            ${session.options.map((opt, i) => `
+              <button data-kmcq-opt="${i}" class="glass rounded-2xl p-4 text-left border border-white/15 hover:border-amber-400/70 hover:bg-amber-500/10 transition flex items-center gap-3">
+                <span class="kbd-chip">${i + 1}</span>
+                <span class="${isReading ? 'font-jp' : ''} font-bold text-sm sm:text-base text-white">${isReading ? getKanjiFullReadingLabel(opt) : opt.meaning}</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `;
+
+      document.getElementById('kmcq-back').addEventListener('click', () => session.returnTo === 'kanji_codex' ? renderKanjiCodex() : renderKanjiDashboard());
+      document.getElementById('kmcq-speak').addEventListener('click', () => speakJP(getKanjiPrimaryReading(target), true));
+      root.querySelectorAll('[data-kmcq-opt]').forEach(btn => {
+        btn.addEventListener('click', (e) => handleKanjiMCQChoice(Number(btn.dataset.kmcqOpt), e.clientX, e.clientY));
+      });
+    }
+
+    function handleKanjiMCQChoice(choiceIdx, x, y) {
+      if (session.locked) return;
+      session.locked = true;
+      const target = session.queue[session.idx];
+      const chosen = session.options[choiceIdx];
+      const correct = chosen.id === target.id;
+      const root = document.getElementById('app-root');
+
+      root.querySelectorAll('[data-kmcq-opt]').forEach((btn, idx) => {
+        const opt = session.options[idx];
+        btn.disabled = true;
+        if (opt.id === target.id) btn.classList.add('border-emerald-400', 'bg-emerald-500/20');
+        else if (idx === choiceIdx && !correct) btn.classList.add('border-rose-400', 'bg-rose-500/20');
+        else btn.classList.add('opacity-45');
+      });
+
+      speakJP(getKanjiPrimaryReading(target), true);
+
+      if (correct) {
+        session.hits++;
+        state.streak++;
+        if (state.streak > state.bestStreak) state.bestStreak = state.streak;
+        markKanjiMastered(target.id);
+        addXP(30, x, y);
+        playSfx('hit');
+      } else {
+        session.misses++;
+        state.streak = 0;
+        markKanjiWeak(target.id);
+        playSfx('miss');
+      }
+
+      const exWord = target.words && target.words[0];
+      const fb = document.getElementById('kmcq-feedback');
+      fb.innerHTML = `
+        <div class="p-3.5 rounded-2xl ${correct ? 'bg-emerald-500/15 border border-emerald-400/40' : 'bg-rose-500/15 border border-rose-400/40'} text-left">
+          <div class="font-black text-sm ${correct ? 'text-emerald-300' : 'text-rose-300'}">${correct ? '✓ Correct!' : '✗ Not quite'} — ${target.kanji} (${getKanjiFullReadingLabel(target)}) = ${target.meaning}</div>
+          <div class="text-xs text-amber-200 mt-1">💡 ${target.tip}</div>
+          ${exWord ? `<div class="font-jp text-xs text-slate-200 mt-1">Example: <strong>${exWord.w}</strong> (${exWord.r}) — ${exWord.m}</div>` : ''}
+        </div>
+        <button id="kmcq-next" class="mt-3 px-6 py-2.5 rounded-2xl font-black text-sm bg-gradient-to-r from-amber-500 to-rose-600 hover:brightness-110 text-white shadow-lg transition">
+          ${session.idx + 1 < session.queue.length ? 'Next Kanji →' : 'See Results →'}
+        </button>
+      `;
+      document.getElementById('kmcq-next').addEventListener('click', () => {
+        session.idx++;
+        setupKanjiMCQTurn();
+      });
+    }
+
+    function renderKanjiTestSummary() {
+      playSfx('victory');
+      const total = Math.max(1, session.hits + session.misses);
+      const acc = Math.round((session.hits / total) * 100);
+      const root = document.getElementById('app-root');
+      root.innerHTML = `
+        <div class="max-w-xl mx-auto glass rounded-3xl p-7 text-center border border-amber-400/40 animate-pop">
+          <div class="text-5xl mb-3">漢</div>
+          <h2 class="text-2xl font-black text-white mb-1">${session.label} Complete!</h2>
+          <p class="text-sm text-slate-300 mb-5">Tested ${session.queue.length} Kanji in random order.</p>
+          <div class="grid grid-cols-3 gap-3 mb-6">
+            <div class="p-3 rounded-2xl bg-white/5 border border-white/10"><div class="text-xs text-slate-400">Correct</div><div class="text-xl font-black text-emerald-300">${session.hits}</div></div>
+            <div class="p-3 rounded-2xl bg-white/5 border border-white/10"><div class="text-xs text-slate-400">Accuracy</div><div class="text-xl font-black text-amber-300">${acc}%</div></div>
+            <div class="p-3 rounded-2xl bg-white/5 border border-white/10"><div class="text-xs text-slate-400">Weak Flagged</div><div class="text-xl font-black text-rose-300">${session.misses}</div></div>
+          </div>
+          <div class="flex flex-wrap justify-center gap-3">
+            <button id="kts-retake" class="px-5 py-3 rounded-2xl font-black text-sm bg-gradient-to-r from-amber-500 to-rose-600 hover:brightness-110 text-white transition">🔀 Retake (New Shuffle)</button>
+            <button id="kts-back" class="px-5 py-3 rounded-2xl font-bold text-sm bg-white/10 hover:bg-white/15 text-white transition">${session.returnTo === 'kanji_codex' ? '← Back to Codex' : '← Kanji Dashboard'}</button>
+          </div>
+        </div>
+      `;
+      document.getElementById('kts-retake').addEventListener('click', () => startKanjiMCQ(session.pool, { returnTo: session.returnTo, label: session.label, limit: session.limit }));
+      document.getElementById('kts-back').addEventListener('click', () => session.returnTo === 'kanji_codex' ? renderKanjiCodex() : renderKanjiDashboard());
+    }
+
+    // --- SHUFFLED KANJI FLASHCARDS ---
+    function startKanjiFlashcards(kanjiPool, returnTo = 'kanji_dashboard') {
+      clearAllTimers();
+      view = 'kanji_cards';
+      setSectionTab('kanji');
+      session = {
+        pool: kanjiPool.slice(),
+        queue: shuffle(kanjiPool),
+        idx: 0,
+        hits: 0,
+        misses: 0,
+        flipped: false,
+        returnTo
+      };
+      renderKanjiFlashcardUI();
+    }
+
+    function renderKanjiFlashcardUI() {
+      if (session.idx >= session.queue.length) {
+        session.label = 'Kanji Flashcards';
+        renderKanjiTestSummary();
+        return;
+      }
+      const k = session.queue[session.idx];
+      const root = document.getElementById('app-root');
+      root.innerHTML = `
+        <div class="max-w-xl mx-auto">
+          <div class="flex items-center justify-between gap-2 mb-4">
+            <button id="kfc-back" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300">← Kanji Dashboard</button>
+            <span class="px-3 py-1 rounded-full text-xs font-extrabold bg-purple-500/20 text-purple-200 border border-purple-400/40">🃏 KANJI CARDS · ${session.idx + 1} / ${session.queue.length}</span>
+            <button id="kfc-speak" class="px-2.5 py-1 rounded-xl text-xs font-bold bg-cyan-500/20 text-cyan-200 border border-cyan-400/40">🔊</button>
+          </div>
+
+          <div id="kfc-card" class="glass rounded-3xl p-7 border border-purple-400/35 text-center cursor-pointer animate-pop">
+            <div class="text-xs text-slate-400 mb-2">Kanji #${k.id} · Day ${k.day}</div>
+            <div class="font-jp text-7xl sm:text-8xl font-black text-white my-3">${k.kanji}</div>
+            ${!session.flipped ? `
+              <div class="mt-4 text-xs font-bold text-purple-200 bg-purple-500/20 border border-purple-400/40 inline-block px-4 py-2 rounded-xl">👆 Tap card to flip</div>
+            ` : `
+              <div class="mt-3 font-jp text-xl font-black text-cyan-300">Kun: ${k.kun} · On: ${k.on}</div>
+              <div class="text-2xl font-black text-white mt-2">${k.meaning}</div>
+              <div class="text-xs text-amber-200 mt-1.5">💡 ${k.tip}</div>
+              <div class="mt-4 text-left space-y-1.5">
+                ${k.words.slice(0, 2).map(w => `<div class="p-2.5 rounded-xl bg-slate-900/80 border border-white/10 text-xs"><strong class="font-jp text-white text-sm">${w.w}</strong> <span class="font-jp text-cyan-300">(${w.r})</span> — <span class="text-emerald-300">${w.m}</span></div>`).join('')}
+              </div>
+            `}
+          </div>
+
+          ${session.flipped ? `
+            <div class="mt-4 grid grid-cols-2 gap-3">
+              <button id="kfc-miss" class="py-3 rounded-2xl font-black text-sm bg-rose-500/20 hover:bg-rose-500/30 border border-rose-400/40 text-rose-200 transition">Need Review</button>
+              <button id="kfc-hit" class="py-3 rounded-2xl font-black text-sm bg-gradient-to-r from-emerald-500 to-teal-600 hover:brightness-110 text-white shadow-lg transition">✓ Got It (+25 XP)</button>
+            </div>
+          ` : ''}
+        </div>
+      `;
+
+      document.getElementById('kfc-back').addEventListener('click', renderKanjiDashboard);
+      document.getElementById('kfc-speak').addEventListener('click', () => speakJP(getKanjiPrimaryReading(k), true));
+      document.getElementById('kfc-card').addEventListener('click', () => {
+        if (!session.flipped) {
+          session.flipped = true;
+          speakJP(getKanjiPrimaryReading(k), true);
+          renderKanjiFlashcardUI();
+        }
+      });
+      const hitBtn = document.getElementById('kfc-hit');
+      const missBtn = document.getElementById('kfc-miss');
+      if (hitBtn) hitBtn.addEventListener('click', (e) => {
+        session.hits++; markKanjiMastered(k.id); addXP(25, e.clientX, e.clientY); playSfx('hit');
+        session.idx++; session.flipped = false; renderKanjiFlashcardUI();
+      });
+      if (missBtn) missBtn.addEventListener('click', () => {
+        session.misses++; markKanjiWeak(k.id); playSfx('miss');
+        session.idx++; session.flipped = false; renderKanjiFlashcardUI();
+      });
+    }
+
+    // --- 120-KANJI CODEX + MODAL ---
+    function openKanjiFlashcardModal(kanjiId, onChange) {
+      const k = KANJI_MAP.get(kanjiId);
+      if (!k) return;
+      const isM = (state.kanjiMastered || []).includes(k.id);
+      speakJP(getKanjiPrimaryReading(k), true);
+
+      openModal(`
+        <div class="flex items-center justify-between mb-3">
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-amber-500/20 text-amber-300 border border-amber-400/40">Kanji #${k.id} · Day ${k.day} · Part ${k.part}</span>
+          <button data-close-modal class="px-2.5 py-1 rounded-lg bg-white/10 text-xs font-bold text-slate-200">Close</button>
+        </div>
+
+        <div class="text-center py-2">
+          <div class="font-jp text-7xl font-black text-white">${k.kanji}</div>
+          <div class="mt-2 font-jp text-base font-bold text-cyan-300">Kun: ${k.kun} <span class="text-slate-500 mx-1">|</span> <span class="text-purple-300">On: ${k.on}</span></div>
+          <div class="text-2xl font-black text-white mt-2">${k.meaning}</div>
+          <div class="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-400/30 text-xs font-bold text-amber-200">💡 ${k.tip}</div>
+        </div>
+
+        <div class="mt-4 space-y-2 max-h-56 overflow-y-auto pr-1">
+          ${k.words.map((w, wi) => `
+            <div class="p-3 rounded-2xl bg-slate-900/90 border border-white/10 flex items-start justify-between gap-2">
+              <div>
+                <div class="flex flex-wrap items-baseline gap-2">
+                  <span class="font-jp text-base font-black text-white">${w.w}</span>
+                  <span class="font-jp text-xs font-bold text-cyan-300">${w.r}</span>
+                  <span class="text-xs text-emerald-300 font-semibold">— ${w.m}</span>
+                </div>
+                <div class="font-jp text-xs text-slate-300 mt-1">${w.ex}</div>
+              </div>
+              <button data-km-speak="${wi}" class="shrink-0 px-2 py-1 rounded-lg bg-cyan-500/20 text-cyan-200 text-xs font-bold">🔊</button>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="mt-4 grid grid-cols-2 gap-3">
+          <button id="km-speak-main" class="py-2.5 rounded-2xl font-bold text-sm bg-cyan-500/20 border border-cyan-400/40 text-cyan-200">🔊 Replay</button>
+          <button id="km-toggle-learned" class="py-2.5 rounded-2xl font-black text-sm ${isM ? 'bg-emerald-500/25 border border-emerald-400/50 text-emerald-200' : 'bg-emerald-500 text-slate-950'}">${isM ? '✓ Learned (Undo)' : '✓ Mark Learned (+25 XP)'}</button>
+        </div>
+      `);
+
+      document.getElementById('km-speak-main').addEventListener('click', () => speakJP(getKanjiPrimaryReading(k), true));
+      document.querySelectorAll('[data-km-speak]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const item = k.words[Number(btn.dataset.kmSpeak)];
+          if (item) speakJP(item.ex || item.r, true);
+        });
+      });
+      document.getElementById('km-toggle-learned').addEventListener('click', (e) => {
+        if ((state.kanjiMastered || []).includes(k.id)) {
+          state.kanjiMastered = state.kanjiMastered.filter(x => x !== k.id);
+          saveState(); updateHUD();
+        } else {
+          markKanjiMastered(k.id);
+          addXP(25, e.clientX, e.clientY);
+          playSfx('skip');
+        }
+        openKanjiFlashcardModal(k.id, onChange);
+        if (onChange) onChange();
+      });
+    }
+
+    function renderKanjiCodex() {
+      clearAllTimers();
+      view = 'kanji_codex';
+      setSectionTab('kanji');
+      const root = document.getElementById('app-root');
+      root.innerHTML = `
+        <div class="max-w-6xl mx-auto">
+          <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div class="flex items-center gap-3">
+              <button id="kcx-back" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300">← Kanji Dashboard</button>
+              <h2 class="text-xl font-black text-white">Basic Kanji 120 Codex</h2>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <input id="kcx-search" type="text" placeholder="Search kanji, kana, meaning..." class="px-3.5 py-2 rounded-xl bg-slate-900/90 border border-white/15 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-amber-400 w-56" />
+              <select id="kcx-day" class="px-3 py-2 rounded-xl bg-slate-900/90 border border-white/15 text-sm text-white">
+                <option value="all">All 4 Days (120)</option>
+                ${KANJI_DAYS.map(d => `<option value="${d.day}">Day ${d.day}: #${d.range[0]}–${d.range[1]}</option>`).join('')}
+              </select>
+              <select id="kcx-status" class="px-3 py-2 rounded-xl bg-slate-900/90 border border-emerald-400/40 text-sm text-emerald-200 font-bold">
+                <option value="all">Status: All Kanji</option>
+                <option value="learned">✓ Learned Only (${(state.kanjiMastered || []).length})</option>
+                <option value="unlearned">📖 Not Learned Yet</option>
+                <option value="weak">👾 Weak Kanji (${Object.keys(state.kanjiWeak || {}).length})</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="glass rounded-2xl p-3.5 mb-4 border border-amber-400/30 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5">
+              <span class="text-xl">📋</span>
+              <div>
+                <div class="text-sm font-black text-white">Test Your Learned Kanji (All 4 Days)</div>
+                <div id="kcx-mcq-sub" class="text-xs text-slate-400">${(state.kanjiMastered || []).length} learned Kanji ready for a shuffled Meaning & Reading MCQ</div>
+              </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <select id="kcx-mcq-count" class="px-3 py-2 rounded-xl bg-slate-900/90 border border-white/15 text-xs font-bold text-white">
+                <option value="all">All Kanji</option>
+                <option value="20">Random 20</option>
+                <option value="50">Random 50</option>
+              </select>
+              <button id="kcx-mcq-learned" class="px-4 py-2 rounded-xl text-xs font-black bg-gradient-to-r from-amber-500 to-rose-600 hover:brightness-110 text-white shadow-lg transition">📋 MCQ: All Learned (${(state.kanjiMastered || []).length})</button>
+              <button id="kcx-mcq-filtered" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-purple-500/20 hover:bg-purple-500/30 border border-purple-400/40 text-purple-200 transition">🎯 MCQ: Filtered (120)</button>
+            </div>
+          </div>
+
+          <div id="kcx-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"></div>
+        </div>
+      `;
+
+      document.getElementById('kcx-back').addEventListener('click', renderKanjiDashboard);
+      const searchEl = document.getElementById('kcx-search');
+      const dayEl = document.getElementById('kcx-day');
+      const statusEl = document.getElementById('kcx-status');
+      const countEl = document.getElementById('kcx-mcq-count');
+      const btnLearned = document.getElementById('kcx-mcq-learned');
+      const btnFiltered = document.getElementById('kcx-mcq-filtered');
+      const subEl = document.getElementById('kcx-mcq-sub');
+      let latestFiltered = KANJI_LIST;
+
+      function drawKanjiCodex() {
+        const q = searchEl.value.trim().toLowerCase();
+        const dVal = dayEl.value;
+        const sVal = statusEl.value;
+        const mSet = new Set(state.kanjiMastered || []);
+        const wMap = state.kanjiWeak || {};
+
+        statusEl.options[1].textContent = `✓ Learned Only (${mSet.size})`;
+        statusEl.options[3].textContent = `👾 Weak Kanji (${Object.keys(wMap).length})`;
+        btnLearned.textContent = `📋 MCQ: All Learned (${mSet.size})`;
+        subEl.textContent = `${mSet.size} learned Kanji ready for a shuffled Meaning & Reading MCQ`;
+
+        const filtered = KANJI_LIST.filter(k => {
+          if (dVal !== 'all' && k.day !== Number(dVal)) return false;
+          if (sVal === 'learned' && !mSet.has(k.id)) return false;
+          if (sVal === 'unlearned' && mSet.has(k.id)) return false;
+          if (sVal === 'weak' && !wMap[k.id]) return false;
+          if (!q) return true;
+          return k.kanji.includes(q) || k.kun.includes(q) || k.on.includes(q) || k.meaning.toLowerCase().includes(q);
+        });
+        latestFiltered = filtered;
+        btnFiltered.textContent = `🎯 MCQ: Filtered (${filtered.length})`;
+
+        const grid = document.getElementById('kcx-grid');
+        if (filtered.length === 0) {
+          grid.innerHTML = `<div class="col-span-full glass rounded-2xl p-8 text-center text-sm text-slate-400">No Kanji match this filter yet.</div>`;
+          return;
+        }
+        grid.innerHTML = filtered.map(k => {
+          const isM = mSet.has(k.id);
+          return `
+            <button data-kcx-id="${k.id}" class="glass rounded-2xl p-3.5 text-left border ${isM ? 'border-emerald-400/45 bg-emerald-500/10' : 'border-white/10 hover:border-amber-400/50'} transition">
+              <div class="flex items-center justify-between text-[10px] font-bold text-slate-400 mb-1">
+                <span>#${k.id} · D${k.day}</span>
+                <span class="${isM ? 'text-emerald-300' : 'text-slate-500'}">${isM ? '✓ Learned' : ''}</span>
+              </div>
+              <div class="font-jp text-4xl font-black text-white text-center my-1.5">${k.kanji}</div>
+              <div class="font-jp text-xs font-bold text-cyan-300 text-center truncate">${getKanjiFullReadingLabel(k)}</div>
+              <div class="text-xs font-extrabold text-slate-200 text-center truncate mt-0.5">${k.meaning}</div>
+            </button>
+          `;
+        }).join('');
+
+        grid.querySelectorAll('[data-kcx-id]').forEach(btn => {
+          btn.addEventListener('click', () => openKanjiFlashcardModal(Number(btn.dataset.kcxId), drawKanjiCodex));
+        });
+      }
+
+      btnLearned.addEventListener('click', () => {
+        const mSet = new Set(state.kanjiMastered || []);
+        const learned = KANJI_LIST.filter(k => mSet.has(k.id));
+        if (learned.length < 2) { showToast('Learn at least 2 Kanji first!', 'rose'); return; }
+        const lim = countEl.value === 'all' ? 0 : Number(countEl.value);
+        startKanjiMCQ(learned, { returnTo: 'kanji_codex', label: 'ALL LEARNED KANJI MCQ', limit: lim });
+      });
+
+      btnFiltered.addEventListener('click', () => {
+        if (latestFiltered.length < 2) { showToast('Need at least 2 Kanji in filter!', 'rose'); return; }
+        const lim = countEl.value === 'all' ? 0 : Number(countEl.value);
+        startKanjiMCQ(latestFiltered, { returnTo: 'kanji_codex', label: 'FILTERED KANJI MCQ', limit: lim });
+      });
+
+      searchEl.addEventListener('input', drawKanjiCodex);
+      dayEl.addEventListener('change', drawKanjiCodex);
+      statusEl.addEventListener('change', drawKanjiCodex);
+      drawKanjiCodex();
+    }
+
+    document.getElementById('nav-tab-vocab').addEventListener('click', () => { setSectionTab('vocab'); renderDashboard(); });
+    document.getElementById('nav-tab-kanji').addEventListener('click', renderKanjiDashboard);
+    document.getElementById('btn-home-logo').addEventListener('click', () => { setSectionTab('vocab'); renderDashboard(); });
     document.getElementById('btn-cloud-sync').addEventListener('click', showCloudSyncModal);
     document.getElementById('btn-badges').addEventListener('click', showBadgesModal);
     document.getElementById('btn-weak-queue').addEventListener('click', showWeakModal);
